@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import cn.edu.zucc.personplan.util.BaseException;
+import oline_fresh_supermaket.model.BeanAdmin;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
+import oline_fresh_supermaket.util.BaseException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -102,14 +104,6 @@ public class login extends JFrame {
 				ActionPerformed(e);
 			}
 		});
-		
-		JButton ChangePwdButton = new JButton("\u4FEE\u6539\u5BC6\u7801");
-		ChangePwdButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//ÐÞ¸ÄÃÜÂë
-				ActionPerformed(e);
-			}
-		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -123,8 +117,6 @@ public class login extends JFrame {
 							.addComponent(LoginButton)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(RegisterButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(ChangePwdButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(QuitButton)
 							.addContainerGap())
@@ -160,7 +152,6 @@ public class login extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(LoginButton)
 						.addComponent(RegisterButton)
-						.addComponent(ChangePwdButton)
 						.addComponent(QuitButton))
 					.addGap(120))
 		);
@@ -176,7 +167,7 @@ public class login extends JFrame {
 			String userid = this.Admin_Usr_nametext.getText();
 			String pwd = new String(this.Admin_Usr_pwdtext.getPassword());
 			try {
-				
+				BeanAdmin.currentLoginUser = oline_fresh_supermaketUtil.userManager.login(userid, pwd);
 			}catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
 				return;
@@ -185,6 +176,9 @@ public class login extends JFrame {
 			
 		}else if(e.getSource() == this.QuitButton) {
 			System.exit(0);
+		} else if(e.getSource()==this.RegisterButton){
+			FrmRegister dlg=new FrmRegister();
+			dlg.setVisible(true);
 		}
 	}
 }
