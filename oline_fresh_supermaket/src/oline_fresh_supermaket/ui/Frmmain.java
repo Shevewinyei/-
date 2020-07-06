@@ -2,22 +2,32 @@ package oline_fresh_supermaket.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+
+import oline_fresh_supermaket.model.BeanFF;
+import oline_fresh_supermaket.model.Beancommodity;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 public class Frmmain extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private BeanFF curPlan=null;
+	List<BeanFF> allPlan=null;
+	List<Beancommodity> planSteps=null;
 	/**
 	 * Launch the application.
 	 */
@@ -72,6 +82,13 @@ public class Frmmain extends JFrame {
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
+		
+		Object tblPlanTitle[]=BeanFF.tableTitles;
+		Object tblPlanData[][];
+		DefaultTableModel tabPlanModel=new DefaultTableModel();
+		JTable dataTablePlan=new JTable(tabPlanModel);
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -85,5 +102,24 @@ public class Frmmain extends JFrame {
 		table = new JTable();
 		panel.add(table);
 		contentPane.setLayout(gl_contentPane);
+	}
+	private void reloadPlanStepTabel(int planIdx){
+		if(planIdx<0) return;
+		curPlan=allPlan.get(planIdx);
+		try {
+			planSteps=PersonPlanUtil.stepManager.loadSteps(curPlan);
+		} catch (BaseException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		tblStepData =new Object[planSteps.size()][BeanStep.tblStepTitle.length];
+		for(int i=0;i<planSteps.size();i++){
+			for(int j=0;j<BeanStep.tblStepTitle.length;j++)
+				tblStepData[i][j]=planSteps.get(i).getCell(j);
+		}
+		
+		tabStepModel.setDataVector(tblStepData,tblStepTitle);
+		this.dataTableStep.validate();
+		this.dataTableStep.repaint();
 	}
 }
