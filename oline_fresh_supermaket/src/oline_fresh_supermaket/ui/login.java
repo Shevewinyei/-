@@ -102,6 +102,14 @@ public class login extends JFrame {
 				ActionPerformed(e);
 			}
 		});
+		
+		JButton ChangePwdButton = new JButton("\u4FEE\u6539\u5BC6\u7801");
+		ChangePwdButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//ÐÞ¸ÄÃÜÂë
+				ActionPerformed(e);
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -116,8 +124,10 @@ public class login extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(RegisterButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(ChangePwdButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(QuitButton)
-							.addGap(403))
+							.addContainerGap())
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
@@ -150,6 +160,7 @@ public class login extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(LoginButton)
 						.addComponent(RegisterButton)
+						.addComponent(ChangePwdButton)
 						.addComponent(QuitButton))
 					.addGap(120))
 		);
@@ -176,5 +187,4 @@ public class login extends JFrame {
 			System.exit(0);
 		}
 	}
-
 }
