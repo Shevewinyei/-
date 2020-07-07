@@ -2,6 +2,7 @@ package oline_fresh_supermaket.model;
 
 public class BeanFF {
 	public static final String[] tableTitles={"编号","生鲜类别名称","描述"};
+	public static BeanFF currentFF;
 	int FF_id;
 	String FF_name;
 	String FF_describle;

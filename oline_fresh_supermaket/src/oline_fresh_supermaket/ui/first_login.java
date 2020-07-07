@@ -60,12 +60,14 @@ public class first_login extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == this.AdminLogin) {
+			this.setVisible(false);
 			FrmAdmin_login dlg = new FrmAdmin_login();
 			dlg.setVisible(true);	
 		} 
 		else if (e.getSource() == this.Cancel) {
 			System.exit(0);
 		} else if(e.getSource()==this.UserLogin){
+			this.setVisible(false);
 			FrmUser_login dlg=new FrmUser_login();
 			dlg.setVisible(true);
 		}

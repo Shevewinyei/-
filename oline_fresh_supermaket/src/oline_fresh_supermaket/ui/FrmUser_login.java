@@ -81,7 +81,7 @@ public class FrmUser_login extends JDialog implements ActionListener {
 //		} else if (e.getSource() == this.btnCancel) {
 //			System.exit(0);
 //		} else if(e.getSource()==this.btnRegister){
-//			FrmRegister dlg=new FrmRegister(this,"зЂВс",true);
+//			FrmRegister_admin dlg=new FrmRegister_admin(this,"зЂВс",true);
 //			dlg.setVisible(true);
 //		}
 	}

@@ -22,7 +22,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FrmRegister extends JFrame {
+public class FrmRegister_admin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField user_name;
@@ -36,7 +36,7 @@ public class FrmRegister extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmRegister frame = new FrmRegister();
+					FrmRegister_admin frame = new FrmRegister_admin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class FrmRegister extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmRegister() {
+	public FrmRegister_admin() {
 		setTitle("\u6CE8\u518C");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,6 +135,8 @@ public class FrmRegister extends JFrame {
 	protected void cancelactionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		this.setVisible(false);
+		FrmAdmin_login dlgAdmin_login = new FrmAdmin_login();
+		dlgAdmin_login.setVisible(true);
 	}
 
 	protected void registeractionPerformed(ActionEvent event) {

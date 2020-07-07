@@ -88,9 +88,11 @@ public class FrmAdmin_login  extends JDialog implements ActionListener{
 			this.setVisible(false);
 			
 		} else if (e.getSource() == this.btnCancel) {
-			System.exit(0);
+			this.setVisible(false);
+			first_login dlgFirst_login = new first_login();
+			dlgFirst_login.setVisible(true);
 		} else if(e.getSource()==this.btnRegister){
-			FrmRegister dlg=new FrmRegister();
+			FrmRegister_admin dlg=new FrmRegister_admin();
 			dlg.setVisible(true);
 		}
 	}

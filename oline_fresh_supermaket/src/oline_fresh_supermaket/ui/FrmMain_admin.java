@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
@@ -57,6 +58,7 @@ public class FrmMain_admin extends JFrame {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//添加生鲜类别
+				Add_FF_actionPerformed(e);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -76,6 +78,14 @@ public class FrmMain_admin extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_10);
+		
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("\u751F\u9C9C\u7C7B\u522B\u7BA1\u7406\u5355\u5143");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//生鲜类别管理单元
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_11);
 		/**
 		 * 商品管理
 		 */
@@ -121,20 +131,38 @@ public class FrmMain_admin extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_6);
-		
+		/**
+		 * 顾客账户管理
+		 */
 		JMenu mnNewMenu_2 = new JMenu("\u987E\u5BA2\u8D26\u6237\u7BA1\u7406");
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u9000\u6B3E\u5904\u7406");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//退款处理
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_7);
 		
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("\u91CD\u7F6E\u5BC6\u7801");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//重置密码
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_8);
 		
 		JMenu mnNewMenu_3 = new JMenu("\u66F4\u591A");
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("\u4FEE\u6539\u5BC6\u7801");
+		mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//修改管理员密码
+				change_admin_pwd_actionPerformed(e);
+			}
+		});
 		mnNewMenu_3.add(mntmNewMenuItem_9);
 		JPanel = new JPanel();
 		JPanel.setToolTipText("");
@@ -152,21 +180,17 @@ public class FrmMain_admin extends JFrame {
 		JPanel.setLayout(gl_JPanel);
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+	protected void Add_FF_actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		FrmAddFF dlgAddFF = new FrmAddFF();
+		dlgAddFF.setVisible(true);
 	}
+
+	protected void change_admin_pwd_actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		FrmModifyPwd_admin dlg=new FrmModifyPwd_admin();
+		dlg.setVisible(true);
+	}
+
+	
 }
