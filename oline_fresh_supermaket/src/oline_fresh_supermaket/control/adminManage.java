@@ -25,7 +25,7 @@ public class adminManage implements IadminManage {
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
-			String sql = "select * from Administrator where admin_id = ?";
+			String sql = "select * from Administrator where admin_name = ?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setString(1, userid);
 			java.sql.ResultSet rs=pst.executeQuery();
@@ -33,6 +33,7 @@ public class adminManage implements IadminManage {
 				throw new BusinessException("用户名不存在,登陆失败");
 			result.setAdmin_id(rs.getInt(1));
 			result.setAdmin_name(rs.getString(2));
+			result.setAdmin_pwd(rs.getNString(3));
 			if(!result.getAdmin_pwd().equals(pwd)) {
 				throw new BusinessException("密码错误。");
 			}

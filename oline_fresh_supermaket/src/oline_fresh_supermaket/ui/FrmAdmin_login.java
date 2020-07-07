@@ -17,6 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import oline_fresh_supermaket.model.BeanAdmin;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
+import oline_fresh_supermaket.start.oline_fresh_supermaket_start;
+import oline_fresh_supermaket.util.BaseException;
+
 
 public class FrmAdmin_login  extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
@@ -69,23 +74,25 @@ public class FrmAdmin_login  extends JDialog implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		if (e.getSource() == this.btnLogin) {
-//			String userid=this.edtUserId.getText();
-//			String pwd=new String(this.edtPwd.getPassword());
-//			try {
-//				BeanUser.currentLoginUser= PersonPlanUtil.userManager.login(userid, pwd);
-//			} catch (BaseException e1) {
-//				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
-//				return;
-//			}
-//			this.setVisible(false);
-//			
-//		} else if (e.getSource() == this.btnCancel) {
-//			System.exit(0);
-//		} else if(e.getSource()==this.btnRegister){
-//			FrmRegister dlg=new FrmRegister(this,"×¢²á",true);
-//			dlg.setVisible(true);
-//		}
+		if (e.getSource() == this.btnLogin) {
+			String userid=this.edtUserId.getText();
+			String pwd=new String(this.edtPwd.getPassword());
+			try {
+				BeanAdmin.currentLoginAdmin = oline_fresh_supermaketUtil.adminManager.login(userid, pwd);
+				FrmMain_admin dlg = new FrmMain_admin();
+				dlg.setVisible(true);
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			this.setVisible(false);
+			
+		} else if (e.getSource() == this.btnCancel) {
+			System.exit(0);
+		} else if(e.getSource()==this.btnRegister){
+			FrmRegister dlg=new FrmRegister();
+			dlg.setVisible(true);
+		}
 	}
 
 }

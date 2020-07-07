@@ -2,7 +2,7 @@ package oline_fresh_supermaket.model;
 
 
 public class BeanAdmin {
-	public static BeanAdmin currentLoginUser=null;
+	public static BeanAdmin currentLoginAdmin=null;
 	int admin_id;
 	String admin_name;
 	String admin_pwd;

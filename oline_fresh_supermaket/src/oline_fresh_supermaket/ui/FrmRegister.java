@@ -6,9 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import oline_fresh_supermaket.model.BeanAdmin;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
+import oline_fresh_supermaket.util.BaseException;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -52,9 +58,7 @@ public class FrmRegister extends JFrame {
 		setContentPane(contentPane);
 		
 		JLabel lblNewLabel = new JLabel("\u7528    \u6237\uFF1A");
-		
 		JLabel lblNewLabel_1 = new JLabel("\u5BC6    \u7801\uFF1A");
-		
 		JLabel lblNewLabel_2 = new JLabel("\u5BC6    \u7801\uFF1A");
 		
 		user_name = new JTextField();
@@ -66,6 +70,7 @@ public class FrmRegister extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//注册按钮
+				registeractionPerformed(e);
 			}
 		});
 		
@@ -73,7 +78,9 @@ public class FrmRegister extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//取消按钮
+				cancelactionPerformed(e);
 			}
+
 		});
 		
 		pwd = new JPasswordField();
@@ -122,5 +129,25 @@ public class FrmRegister extends JFrame {
 					.addContainerGap(77, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+		
+	}
+
+	protected void cancelactionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		this.setVisible(false);
+	}
+
+	protected void registeractionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		String userid=this.user_name.getText();
+		String pwd1=new String(this.pwd.getPassword());
+		String pwd2=new String(this.pwd2.getPassword());
+		try {
+			BeanAdmin user=oline_fresh_supermaketUtil.adminManager.reg(userid,pwd1,pwd2);
+			this.setVisible(false);
+		} catch (BaseException e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 	}
 }
