@@ -1,6 +1,17 @@
 package oline_fresh_supermaket.model;
 
 public class Beancommodity {
+	public static final String[] tblStepTitle={"编号","名称","单价","vip价格","剩余数量","规格","描述"};
+	public String getCell(int col){
+		if(col==0) return this.getCom_id()+"";
+		else if(col==1) return this.getCom_name();
+		else if(col==2) return this.getCom_price()+"";
+		else if(col==3) return this.getCom_vip_price()+"";
+		else if(col==4) return this.getCom_count()+"";
+		else if(col==5) return this.getCom_specification()+"";
+		else if(col == 6) return this.getCom_describle();
+		else return "";
+	}
 	int com_id;
 	int Ld_id;
 	int FF_id;
@@ -64,5 +75,6 @@ public class Beancommodity {
 	public void setCom_describle(String com_describle) {
 		this.com_describle = com_describle;
 	}
+	
 	
 }

@@ -3,7 +3,7 @@ package oline_fresh_supermaket.ift;
 import oline_fresh_supermaket.model.BeanAdmin;
 import oline_fresh_supermaket.util.BaseException;
 
-public interface Iadminmanage {
+public interface IadminManage {
 	/**
 	 * 注册：
 	 * 要求用户名不能重复，不能为空
