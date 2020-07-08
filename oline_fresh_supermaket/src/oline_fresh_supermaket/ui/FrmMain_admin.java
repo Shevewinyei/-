@@ -54,22 +54,15 @@ public class FrmMain_admin extends JFrame {
 		JMenu mnNewMenu = new JMenu("\u751F\u9C9C\u7C7B\u522B\u7BA1\u7406");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("\u6DFB\u52A0\u751F\u9C9C\u7C7B\u522B");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("\u751F\u9C9C\u7C7B\u522B\u7BA1\u7406\u5355\u5143");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//添加生鲜类别
-				Add_FF_actionPerformed(e);
+				//生鲜类别管理单元
+				FrmFFManage dlgFfManage = new FrmFFManage();
+				dlgFfManage.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5220\u9664\u751F\u9C9C\u7C7B\u522B");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//删除生鲜类别
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mnNewMenu.add(mntmNewMenuItem_11);
 		
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("\u4FEE\u6539\u63CF\u8FF0");
 		mntmNewMenuItem_10.addActionListener(new ActionListener() {
@@ -78,35 +71,21 @@ public class FrmMain_admin extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_10);
-		
-		JMenuItem mntmNewMenuItem_11 = new JMenuItem("\u751F\u9C9C\u7C7B\u522B\u7BA1\u7406\u5355\u5143");
-		mntmNewMenuItem_11.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//生鲜类别管理单元
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_11);
 		/**
 		 * 商品管理
 		 */
 		JMenu mnNewMenu_1 = new JMenu("\u5546\u54C1\u7BA1\u7406");
 		menuBar.add(mnNewMenu_1);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("\u6DFB\u52A0\u5546\u54C1");
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("\u5546\u54C1\u7BA1\u7406\u5355\u5143");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//添加商品
+				//商品管理单元
+				FrmCommodityManage dlgCommodityManage = new FrmCommodityManage();
+				dlgCommodityManage.setVisible(true);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u5220\u9664\u5546\u54C1");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//删除商品
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_3);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u4FEE\u6539\u5546\u54C1\u5269\u4F59\u6570\u91CF");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
@@ -178,12 +157,6 @@ public class FrmMain_admin extends JFrame {
 				.addGap(0, 268, Short.MAX_VALUE)
 		);
 		JPanel.setLayout(gl_JPanel);
-	}
-
-	protected void Add_FF_actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		FrmAddFF dlgAddFF = new FrmAddFF();
-		dlgAddFF.setVisible(true);
 	}
 
 	protected void change_admin_pwd_actionPerformed(ActionEvent event) {

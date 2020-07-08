@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class FrmAddFF extends JFrame {
-
+	private BeanFF pub = null;
 	private JPanel contentPane;
 	private JTextField FF_id;
 	private JTextField FF_name;
@@ -139,6 +139,7 @@ public class FrmAddFF extends JFrame {
 		// TODO Auto-generated method stub
 		
 		int FFid;
+		pub = new BeanFF();
 		String ffid = this.FF_id.getText();
 		if(ffid.isEmpty()) {
 			FFid = 0;
@@ -147,6 +148,9 @@ public class FrmAddFF extends JFrame {
 		}
 		String FFname = this.FF_name.getText();
 		String FFdescrible = this.FF_describle.getText();
+		pub.setFF_id(FFid);
+		pub.setFF_name(FFname);
+		pub.setFF_describle(FFdescrible);
 		try {
 			BeanFF.currentFF = oline_fresh_supermaketUtil.FFManager.addFF(FFid, FFname, FFdescrible);
 			this.setVisible(false);
@@ -154,5 +158,10 @@ public class FrmAddFF extends JFrame {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+	}
+
+	public BeanFF getPub() {
+		// TODO Auto-generated method stub
+		return pub;
 	}
 }

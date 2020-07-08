@@ -10,6 +10,7 @@ public interface IcommodityManage {
 	/**
 	 *º”‘ÿ¿‡
 	 */
-	public List<Beancommodity> loadcommodity(BeanFF plan)throws BaseException;
+	public List<Beancommodity> loadcommodity()throws BaseException;
+	public Beancommodity addcommodity(Beancommodity commodity)throws BaseException;
 	
 }
