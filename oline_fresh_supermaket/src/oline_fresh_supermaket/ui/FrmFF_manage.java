@@ -2,10 +2,15 @@ package oline_fresh_supermaket.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -15,6 +20,7 @@ import javax.swing.JTable;
 
 public class FrmFF_manage extends JFrame {
 
+	
 	private JPanel contentPane;
 	private JTable table;
 
@@ -55,17 +61,13 @@ public class FrmFF_manage extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnNewButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_1)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_2))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(31)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 533, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(44, Short.MAX_VALUE))
+					.addComponent(btnNewButton)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2)
+					.addContainerGap(230, Short.MAX_VALUE))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -74,13 +76,20 @@ public class FrmFF_manage extends JFrame {
 						.addComponent(btnNewButton)
 						.addComponent(btnNewButton_1)
 						.addComponent(btnNewButton_2))
-					.addGap(22)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(35, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		
-		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
 		contentPane.setLayout(gl_contentPane);
+		
+		
+		}
+		
+		
+		
+		
+		
 	}
-}
+
