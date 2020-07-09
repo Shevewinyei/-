@@ -3,6 +3,7 @@ package oline_fresh_supermaket.model;
 import java.util.Date;
 
 public class Beanuser {
+	public static Beanuser currentLoginUser;
 	int usr_id;
 	String usr_name;
 	String usr_gender;

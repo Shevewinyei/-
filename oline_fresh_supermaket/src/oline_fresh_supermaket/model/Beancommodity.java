@@ -2,6 +2,7 @@ package oline_fresh_supermaket.model;
 
 public class Beancommodity {
 	public static final String[] tblStepTitle={"编号","名称","单价","vip价格","剩余数量","规格","描述"};
+	public static Beancommodity currentCom;
 	public String getCell(int col){
 		if(col==0) return this.getCom_id()+"";
 		else if(col==1) return this.getCom_name();

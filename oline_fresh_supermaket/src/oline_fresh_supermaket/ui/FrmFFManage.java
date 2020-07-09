@@ -117,7 +117,7 @@ public class FrmFFManage extends JDialog implements ActionListener{
 		else if(e.getSource()==this.btnDelete){
 			int i=this.dataTable.getSelectedRow();
 			if(i<0) {
-				JOptionPane.showMessageDialog(null,  "请选择出版社","提示",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,  "请选择生鲜类别","提示",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			BeanFF p = this.pubs.get(i);

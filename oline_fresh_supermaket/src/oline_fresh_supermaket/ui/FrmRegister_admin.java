@@ -57,7 +57,7 @@ public class FrmRegister_admin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("\u7528    \u6237\uFF1A");
+		JLabel lblNewLabel = new JLabel("\u7BA1\u7406\u5458\uFF1A");
 		JLabel lblNewLabel_1 = new JLabel("\u5BC6    \u7801\uFF1A");
 		JLabel lblNewLabel_2 = new JLabel("\u5BC6    \u7801\uFF1A");
 		

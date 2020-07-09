@@ -17,17 +17,21 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import oline_fresh_supermaket.model.Beanuser;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
+import oline_fresh_supermaket.util.BaseException;
+
 public class FrmUser_login extends JDialog implements ActionListener {
-	private JPanel toolBar = new JPanel();
-	private JPanel workPane = new JPanel();
-	private JButton btnLogin = new JButton("µÇÂ½");
-	private JButton btnCancel = new JButton("ÍË³ö");
-	private JButton btnRegister = new JButton("×¢²á");
+	private JPanel toolBar1 = new JPanel();
+	private JPanel workPane1 = new JPanel();
+	private JButton btnLogin1 = new JButton("µÇÂ½");
+	private JButton btnCancel1 = new JButton("·µ»Ø");
+	private JButton btnRegister1 = new JButton("×¢²á");
 	
-	private JLabel labelUser = new JLabel("ÓÃ»§£º");
-	private JLabel labelPwd = new JLabel("ÃÜÂë£º");
-	private JTextField edtUserId = new JTextField(20);
-	private JPasswordField edtPwd = new JPasswordField(20);
+	private JLabel labelUser1 = new JLabel("ÓÃ»§Ãû£º");
+	private JLabel labelPwd1 = new JLabel("ÃÜ  Âë£º");
+	private JTextField edtUserId1 = new JTextField(20);
+	private JPasswordField edtPwd1 = new JPasswordField(20);
 
 	public FrmUser_login(Frame f, String s, boolean b) {
 		super(f, s, b);
@@ -37,17 +41,17 @@ public class FrmUser_login extends JDialog implements ActionListener {
 		super();
 		acc();
 	}
-	public void acc(){
-		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		toolBar.add(this.btnRegister);
-		toolBar.add(btnLogin);
-		toolBar.add(btnCancel);
-		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
-		workPane.add(labelUser);
-		workPane.add(edtUserId);
-		workPane.add(labelPwd);
-		workPane.add(edtPwd);
-		this.getContentPane().add(workPane, BorderLayout.CENTER);
+	private void acc(){
+		toolBar1.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		toolBar1.add(this.btnRegister1);
+		toolBar1.add(btnLogin1);
+		toolBar1.add(btnCancel1);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
+		workPane1.add(labelUser1);
+		workPane1.add(edtUserId1);
+		workPane1.add(labelPwd1);
+		workPane1.add(edtPwd1);
+		this.getContentPane().add(workPane1, BorderLayout.CENTER);
 		this.setSize(320, 140);
 		// ÆÁÄ»¾ÓÖÐÏÔÊ¾
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -57,9 +61,9 @@ public class FrmUser_login extends JDialog implements ActionListener {
 
 		this.validate();
 
-		btnLogin.addActionListener(this);
-		btnCancel.addActionListener(this);
-		this.btnRegister.addActionListener(this);
+		btnLogin1.addActionListener(this);
+		btnCancel1.addActionListener(this);
+		this.btnRegister1.addActionListener(this);
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
@@ -67,23 +71,27 @@ public class FrmUser_login extends JDialog implements ActionListener {
 		});
 	}
 	public void actionPerformed(ActionEvent e) {
-//		if (e.getSource() == this.btnLogin) {
-//			String userid=this.edtUserId.getText();
-//			String pwd=new String(this.edtPwd.getPassword());
-//			try {
-//				BeanUser.currentLoginUser= PersonPlanUtil.userManager.login(userid, pwd);
-//			} catch (BaseException e1) {
-//				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
-//				return;
-//			}
-//			this.setVisible(false);
-//			
-//		} else if (e.getSource() == this.btnCancel) {
-//			System.exit(0);
-//		} else if(e.getSource()==this.btnRegister){
+		if (e.getSource() == this.btnLogin1) {
+			String userid=this.edtUserId1.getText();
+			String pwd=new String(this.edtPwd1.getPassword());
+			try {
+				Beanuser.currentLoginUser= oline_fresh_supermaketUtil.userManager.login(userid, pwd);
+				FrmMain_user dlg =  new FrmMain_user();
+				dlg.setVisible(true);
+			} catch (BaseException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			this.setVisible(false);
+			
+		} else if (e.getSource() == this.btnCancel1) {
+			this.setVisible(false);
+			first_login dlgFirst_login = new first_login();
+			dlgFirst_login.setVisible(true);
+		} else if(e.getSource()==this.btnRegister1){
 //			FrmRegister_admin dlg=new FrmRegister_admin(this,"×¢²á",true);
 //			dlg.setVisible(true);
-//		}
+		}
 	}
 
 }

@@ -27,11 +27,11 @@ public class FrmAdmin_login  extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private JButton btnLogin = new JButton("登陆");
-	private JButton btnCancel = new JButton("退出");
+	private JButton btnCancel = new JButton("返回");
 	private JButton btnRegister = new JButton("注册");
 	
-	private JLabel labelUser = new JLabel("用户：");
-	private JLabel labelPwd = new JLabel("密码：");
+	private JLabel labelUser = new JLabel("管理员：");
+	private JLabel labelPwd = new JLabel("密  码：");
 	private JTextField edtUserId = new JTextField(20);
 	private JPasswordField edtPwd = new JPasswordField(20);
 
@@ -43,7 +43,7 @@ public class FrmAdmin_login  extends JDialog implements ActionListener{
 		super();
 		acc();
 	}
-	public void acc() {
+	private void acc() {
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(this.btnRegister);
 		toolBar.add(btnLogin);
