@@ -12,7 +12,6 @@ import oline_fresh_supermaket.util.DbException;
 import oline_fresh_supermaket.util.JDBCUtil;
 
 public class FFManage implements IFFManager {
-
 	@Override
 	public List<BeanFF> loadall() throws BaseException {
 		// TODO Auto-generated method stub

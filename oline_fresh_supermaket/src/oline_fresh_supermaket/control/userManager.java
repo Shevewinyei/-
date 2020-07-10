@@ -2,6 +2,8 @@ package oline_fresh_supermaket.control;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import oline_fresh_supermaket.ift.IuserManager;
 import oline_fresh_supermaket.model.Beanuser;
@@ -11,7 +13,6 @@ import oline_fresh_supermaket.util.DbException;
 import oline_fresh_supermaket.util.JDBCUtil;
 
 public class userManager implements IuserManager {
-
 	@Override
 	public Beanuser login(String userid, String pwd) throws BaseException {
 		// TODO Auto-generated method stub
@@ -41,6 +42,70 @@ public class userManager implements IuserManager {
 			}
 			pst.close();
 			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public Beanuser reg(String name, String gender, char[] pwd,char[] pwd2,String telephone, String city, String email)throws BaseException
+	{
+		// TODO Auto-generated method stub
+		Beanuser result =  new Beanuser();
+		if(name.isEmpty()) throw new BaseException("用户名不能为空！");
+		if(!String.valueOf(pwd).equals(String.valueOf(pwd2))) throw new BaseException("两次输入密码不相同！");
+		if(!String.valueOf(pwd).isEmpty()) throw new BaseException("密码不能为空！");
+//		if (!gender.isEmpty()) {
+//			throw new BusinessException("请选择性别选项！");
+//		}
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select max(usr_id) from user";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) result.setUsr_id(1);
+			result.setUsr_id(rs.getInt(1)+1);
+			rs.close();
+			
+			//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			//Date date = new Date(); 
+			result.setUsr_name(name);
+			result.setUsr_gender(gender);
+			result.setUsr_pwd(String.valueOf(pwd));
+			result.setUsr_phonenumber(telephone);
+			result.setUsr_city(city);
+			result.setUsr_email(email);
+			result.setUsr_isvip(false);
+			result.setUsr_registration_time(new java.sql.Date(System.currentTimeMillis()));
+			
+			sql = "insert into user(usr_id,usr_name,usr_gender,"
+					+ "usr_pwd,usr_phonenumber,usr_city,usr_email,usr_registration_time,usr_isvip) values (?,?,?,?,?,?,?,?,?)";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, result.getUsr_id());
+			pst.setString(2, name);
+			pst.setString(3, gender);
+			pst.setString(4, String.valueOf(pwd));
+			pst.setString(5, telephone);
+			pst.setString(6, city);
+			pst.setString(7, email);
+			pst.setDate(8,new java.sql.Date(System.currentTimeMillis()));
+			pst.setBoolean(9, false);
+			pst.execute();
+			pst.close();
+			
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);

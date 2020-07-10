@@ -89,8 +89,8 @@ public class FrmUser_login extends JDialog implements ActionListener {
 			first_login dlgFirst_login = new first_login();
 			dlgFirst_login.setVisible(true);
 		} else if(e.getSource()==this.btnRegister1){
-//			FrmRegister_admin dlg=new FrmRegister_admin(this,"зЂВс",true);
-//			dlg.setVisible(true);
+			FrmRegister_user dlg=new FrmRegister_user();
+			dlg.setVisible(true);
 		}
 	}
 

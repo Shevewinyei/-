@@ -59,8 +59,8 @@ public class Beanuser {
 	public Date getUsr_registration_time() {
 		return usr_registration_time;
 	}
-	public void setUsr_registration_time(Date usr_registration_time) {
-		this.usr_registration_time = usr_registration_time;
+	public void setUsr_registration_time(Date date) {
+		this.usr_registration_time = date;
 	}
 	public boolean isUsr_isvip() {
 		return usr_isvip;
