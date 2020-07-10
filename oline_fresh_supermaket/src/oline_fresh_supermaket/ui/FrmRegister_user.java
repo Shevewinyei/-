@@ -41,7 +41,7 @@ public class FrmRegister_user extends JFrame {
 	private JRadioButton man = new JRadioButton("\u7537");;
 	private JRadioButton woman = new JRadioButton("\u5973");;
 	private ButtonGroup group;
-	private String gender;
+	private String gender="";
 	/**
 	 * Launch the application.
 	 */

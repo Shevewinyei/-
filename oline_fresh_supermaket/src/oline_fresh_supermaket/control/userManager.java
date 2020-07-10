@@ -65,10 +65,11 @@ public class userManager implements IuserManager {
 		Beanuser result =  new Beanuser();
 		if(name.isEmpty()) throw new BaseException("用户名不能为空！");
 		if(!String.valueOf(pwd).equals(String.valueOf(pwd2))) throw new BaseException("两次输入密码不相同！");
-		if(!String.valueOf(pwd).isEmpty()) throw new BaseException("密码不能为空！");
-//		if (!gender.isEmpty()) {
-//			throw new BusinessException("请选择性别选项！");
-//		}
+		if(String.valueOf(pwd).isEmpty()) throw new BaseException("密码不能为空！");
+		if (gender.isEmpty())	throw new BaseException("请选择性别选项！");
+		if(email.isEmpty())	throw new BaseException("电子邮箱不能为空");
+		if(city.isEmpty())	throw new BaseException("所在城市不能为空");
+		if(telephone.isEmpty()) throw new BaseException("电话不能为空！");
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
