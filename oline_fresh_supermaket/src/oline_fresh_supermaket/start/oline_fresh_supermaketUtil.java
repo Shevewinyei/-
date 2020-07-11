@@ -43,4 +43,6 @@ public class oline_fresh_supermaketUtil {
 	public static IordermessageManager ordermessageManager = new ordermessageManager();
 	public static IordercontentManager ordercontentManager = new ordercontentManager();
 	
+	
+	
 }

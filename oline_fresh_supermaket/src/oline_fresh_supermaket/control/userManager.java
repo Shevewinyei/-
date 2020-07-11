@@ -3,7 +3,10 @@ package oline_fresh_supermaket.control;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import javax.swing.JOptionPane;
+
+import java.sql.Date;
 
 import oline_fresh_supermaket.ift.IuserManager;
 import oline_fresh_supermaket.model.Beanuser;
@@ -33,10 +36,11 @@ public class userManager implements IuserManager {
 			result.setUsr_gender(rs.getNString(3));
 			result.setUsr_pwd(rs.getString(4));
 			result.setUsr_phonenumber(rs.getString(5));
-			result.setUsr_city(rs.getString(6));
-			result.setUsr_registration_time(rs.getDate(7));
-			result.setUsr_isvip(rs.getBoolean(8));
-			result.setUsr_vip_ddl(rs.getDate(9));
+			result.setUsr_email(rs.getString(6));
+			result.setUsr_city(rs.getString(7));
+			result.setUsr_registration_time(rs.getDate(8));
+			result.setUsr_isvip(rs.getBoolean(9));
+			result.setUsr_vip_ddl(rs.getDate(10));
 			if(!result.getUsr_pwd().equals(pwd)) {
 				throw new BusinessException("密码错误。");
 			}
@@ -121,6 +125,129 @@ public class userManager implements IuserManager {
 				}
 		}
 		return result;
+	}
+
+	@Override
+	public boolean isvip(String name) throws BaseException {
+		// TODO Auto-generated method stub
+		boolean result ;
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select usr_isvip from user where usr_name = ? ";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, name);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) throw new BaseException("该用户不存在");
+			result = rs.getBoolean(1);
+			
+			pst.close();
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public void bevip(String name) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		boolean p = isvip(name);
+		if(p) JOptionPane.showMessageDialog(null,"已经是VIP会员。可到期后续费！");
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update user set usr_isvip = true where usr_name = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, name);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+
+	@Override
+	public Date setDDLDate(String name,Date addDate) throws BaseException {
+		// TODO Auto-generated method stub
+		java.sql.Date sqlDate;
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update user set usr_vip_ddl = ? where usr_name = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			
+			java.util.Date utilDate = new java.util.Date();
+			sqlDate = new java.sql.Date(utilDate.getTime()+addDate.getTime());
+			pst.setDate(1, sqlDate);
+			pst.setString(2, name);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return sqlDate;
+	}
+
+	@Override
+	public Date searchDDLDate(String userid) throws BaseException {
+		// TODO Auto-generated method stub
+		java.sql.Date sqlDate;
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select usr_vip_ddl from user where usr_name = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, userid);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) JOptionPane.showMessageDialog(null,"未开通vip。");
+			sqlDate = rs.getDate(1);
+			rs.close();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return sqlDate;
 	}
 
 }

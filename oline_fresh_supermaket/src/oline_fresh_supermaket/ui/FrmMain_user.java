@@ -14,12 +14,13 @@ import javax.swing.table.DefaultTableModel;
 import oline_fresh_supermaket.control.FDManager;
 import oline_fresh_supermaket.model.BeanFD_com_connect;
 import oline_fresh_supermaket.model.BeanFull_discount;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
 import oline_fresh_supermaket.util.BaseException;
-
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -34,9 +35,10 @@ import java.awt.Container;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Dimension;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 
 public class FrmMain_user extends JFrame {
-
+	private String Userid;
 	private JPanel contentPane;
 	private Object tblTitle[]={"满折优惠信息","开始","结束"};
 	private Object tblData[][];
@@ -84,26 +86,13 @@ public class FrmMain_user extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrmMain_user frame = new FrmMain_user();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public FrmMain_user() {
+	public FrmMain_user(String userid) {
+		Userid = userid; 
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 608, 624);
@@ -119,6 +108,8 @@ public class FrmMain_user extends JFrame {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//商品表
+				FrmBuyCom dlg = new FrmBuyCom();
+				dlg.setVisible(true);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -177,6 +168,36 @@ public class FrmMain_user extends JFrame {
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 		setTableColumnCenter(dataTable2);
 		
+		JMenu mnNewMenu_4 = new JMenu("\u4F1A\u5458\u4FE1\u606F");
+		menuBar.add(mnNewMenu_4);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("\u5145\u503C\u4F1A\u5458");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//充值会员
+				FrmBeVIP dlg = new FrmBeVIP(Userid);
+				dlg.setVisible(true);
+				setVisible(false);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_5);
+		
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("\u67E5\u770B\u4F1A\u5458\u5230\u671F\u65F6\u95F4");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//查看会员到期时间
+				try {
+					java.sql.Date pDate = oline_fresh_supermaketUtil.userManager.searchDDLDate(Userid);
+					JOptionPane.showMessageDialog(null,pDate);
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_6);
+		
 		JMenu mnNewMenu_2 = new JMenu("\u66F4\u591A");
 		menuBar.add(mnNewMenu_2);
 		contentPane = new JPanel();
@@ -189,14 +210,34 @@ public class FrmMain_user extends JFrame {
 		lblNewLabel.setForeground(new Color(255, 160, 122));
 		lblNewLabel.setFont(new Font("Libian SC", Font.PLAIN, 34));
 		
+		JLabel lblNewLabel_1 = new JLabel("\u5F53\u524D\u7528\u6237\uFF1A");
+		
+		JLabel lblNewLabel_2 = new JLabel("\u662F\u5426VIP\uFF1A");
+		
+		JLabel user_name = new JLabel(Userid);
+		JLabel Vip;
+		boolean p = false ;
+		try {
+			p = oline_fresh_supermaketUtil.userManager.isvip(Userid);
+		} catch (BaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (p) {
+			Vip = new JLabel("是");
+		}else {
+			Vip = new JLabel("否");
+		}
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(45, Short.MAX_VALUE)
+					.addContainerGap(176, Short.MAX_VALUE)
 					.addComponent(lblNewLabel)
 					.addGap(150))
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(65)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -205,17 +246,36 @@ public class FrmMain_user extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
 							.addGap(60))))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblNewLabel_2)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(Vip))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblNewLabel_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(user_name)))
+					.addContainerGap(460, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(74)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(user_name))
+					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_2)
+						.addComponent(Vip))
+					.addGap(24)
 					.addComponent(lblNewLabel)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(36, Short.MAX_VALUE))
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -226,6 +286,4 @@ public class FrmMain_user extends JFrame {
 		
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 	}
-
-	
 }

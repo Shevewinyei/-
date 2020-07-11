@@ -76,7 +76,7 @@ public class FrmUser_login extends JDialog implements ActionListener {
 			String pwd=new String(this.edtPwd1.getPassword());
 			try {
 				Beanuser.currentLoginUser= oline_fresh_supermaketUtil.userManager.login(userid, pwd);
-				FrmMain_user dlg =  new FrmMain_user();
+				FrmMain_user dlg =  new FrmMain_user(userid);
 				dlg.setVisible(true);
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);

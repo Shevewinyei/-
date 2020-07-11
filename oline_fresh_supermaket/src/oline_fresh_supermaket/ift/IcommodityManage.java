@@ -14,4 +14,5 @@ public interface IcommodityManage {
 	public Beancommodity addcommodity(Beancommodity commodity)throws BaseException;
 	public void deletecommodity(int com_id)throws BaseException;
 	public List<Beancommodity> seachcommodity(int com_id) throws BaseException;
+	public List<Beancommodity> loadall(BeanFF ff)throws BaseException;
 }
