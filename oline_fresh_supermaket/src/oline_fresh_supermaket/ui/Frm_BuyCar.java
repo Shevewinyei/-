@@ -6,9 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,7 +25,7 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 	private Button btnok = new Button("确认订单");
 	private Button btnDelete = new Button("删除商品");
 	private Button btncancel = new Button("退出");
-	private static List<Beancommodity> coms;
+	private static List<Beancommodity> coms ;
 	private Object tblTitle[]={"商品编号","商品名称","商品价格","商品vip价格","商品数量","商品规格","商品描述"};
 	private Object tblData[][];
 	List<Beancommodity> pubs = null;
@@ -59,7 +61,7 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		//提取现有数据
-		//this.reloadTable();
+		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
 	
 		// 屏幕居中显示
@@ -102,6 +104,28 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getSource()==btncancel) {
 			this.setVisible(false);
+		}
+		else if(e.getSource()== btnDelete) {
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beancommodity p =  this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定删除"+p.getCom_name()+"吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				Iterator<Beancommodity> iter = coms.iterator();
+				while (iter.hasNext()) {
+					Beancommodity item = iter.next();
+				    if (item.equals(p)) {
+				        iter.remove();
+				    }
+				}
+				this.reloadTable();
+			}
+				
+		}
+		else if(e.getSource()==btnok) {
+			
 		}
 	}
 

@@ -11,6 +11,7 @@ import oline_fresh_supermaket.model.Beancommodity;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -115,8 +116,15 @@ public class Frm_addcom extends JFrame {
 	private void add_buycar(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int count = Integer.parseInt(number.getText());
-		this.setVisible(false);
-		FrmBuyCom dlg = new FrmBuyCom(com,count);
-		dlg.setVisible(true);
+		if(count>com.getCom_count()) {
+			JOptionPane.showMessageDialog(null, "¿â´æ²»×ã");
+			this.setVisible(false);
+		}
+		else {
+			FrmBuyCom dlgBuyCom = new FrmBuyCom();
+			dlgBuyCom.add(com, count);
+			this.setVisible(false);
+		}
+		
 	}
 }

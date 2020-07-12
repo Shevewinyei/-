@@ -13,4 +13,6 @@ public interface IuserManager {
 	public void bevip(String name)throws BaseException;
 	public Date setDDLDate(String name,Date addDate) throws BaseException;
 	public Date searchDDLDate(String userid)throws BaseException;
+	public Beanuser update(String usr_name, String gender, String phonenumber, String emailString, String cityString)throws BaseException;
+	public Beanuser searchUser(int usr_id)throws BaseException;
 }

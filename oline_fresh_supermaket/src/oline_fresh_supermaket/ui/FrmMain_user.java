@@ -121,6 +121,8 @@ public class FrmMain_user extends JFrame {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//查看历史订单
+				FrmOrder dlg = new FrmOrder();
+				dlg.setVisible(true);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
@@ -132,6 +134,15 @@ public class FrmMain_user extends JFrame {
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//用户信息设置
+				Frmcurrentuser dlg;
+				try {
+					dlg = new Frmcurrentuser();
+					dlg.setVisible(true);
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_2);
@@ -140,6 +151,8 @@ public class FrmMain_user extends JFrame {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//用户地址管理
+				FrmAddressManage dlgAddressManage = new FrmAddressManage();
+				dlgAddressManage.setVisible(true);
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_3);
@@ -214,6 +227,7 @@ public class FrmMain_user extends JFrame {
 		
 		JLabel lblNewLabel_2 = new JLabel("\u662F\u5426VIP\uFF1A");
 		
+		//显示当前用户的用户名字和是否是vip信息
 		JLabel user_name = new JLabel(Userid);
 		JLabel Vip;
 		boolean p = false ;

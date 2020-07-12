@@ -83,7 +83,7 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 		toolBar.add(this.btnDelete);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
-		toolBar.add(this.btnDelete);
+		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		//提取现有数据
 		this.reloadTable();

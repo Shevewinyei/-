@@ -250,4 +250,85 @@ public class userManager implements IuserManager {
 		return sqlDate;
 	}
 
+	@Override
+	public Beanuser update(String usr_name, String gender, String phonenumber, String emailString, String cityString)
+			throws BaseException {
+		// TODO Auto-generated method stub
+		Beanuser result = new Beanuser();
+		Connection conn = null;
+		if(usr_name.isEmpty()||gender.isEmpty()||phonenumber.isEmpty()||emailString.isEmpty()||cityString.isEmpty()) {
+			JOptionPane.showMessageDialog(null,"输入的参数不能为空！");
+		}
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update user set usr_name = ?,usr_gender = ?,usr_phonenumber = ?,usr_email = ?,usr_city = ? where usr_id =?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, usr_name);
+			pst.setString(2, gender);
+			pst.setString(3, phonenumber);
+			pst.setString(4, emailString);
+			pst.setString(5, cityString);
+			pst.setInt(6, Beanuser.currentLoginUser.getUsr_id());
+			pst.execute();
+			
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public Beanuser searchUser(int usr_id) throws BaseException {
+		// TODO Auto-generated method stub
+		Beanuser result = new Beanuser();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select * from user where usr_id =?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, usr_id);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) 
+				throw new BusinessException("用户名不存在");
+			result.setUsr_id(rs.getInt(1));
+			result.setUsr_name(rs.getString(2));
+			result.setUsr_gender(rs.getNString(3));
+			result.setUsr_pwd(rs.getString(4));
+			result.setUsr_phonenumber(rs.getString(5));
+			result.setUsr_email(rs.getString(6));
+			result.setUsr_city(rs.getString(7));
+			result.setUsr_registration_time(rs.getDate(8));
+			result.setUsr_isvip(rs.getBoolean(9));
+			result.setUsr_vip_ddl(rs.getDate(10));
+			
+			pst.close();
+			rs.close();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
 }

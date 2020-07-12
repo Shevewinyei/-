@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -24,7 +25,8 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmBuyCom  extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private static List<Beancommodity> table;
+	static List<Beancommodity> table = new ArrayList<Beancommodity>();  
+	int count;
 	private JMenuBar menubar=new JMenuBar(); 
 	private JMenu menu_buy=new JMenu("购买管理");
     private JMenu menu_more=new JMenu("更多");
@@ -115,10 +117,10 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 	    
 	    this.reloadPlanTable();
 	}
-	public FrmBuyCom(Beancommodity com, int count) {
+	public void add(Beancommodity com, int count) {
 		// TODO Auto-generated constructor stub
 		com.setCom_count(count);
-		table.add(com);
+		{this.table.add(com);}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
