@@ -67,6 +67,12 @@ public class Frm_addcom extends JFrame {
 		});
 		
 		JButton btnNewButton_1 = new JButton("\u53D6\u6D88");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//È¡Ïû
+				setVisible(false);
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -109,7 +115,8 @@ public class Frm_addcom extends JFrame {
 	private void add_buycar(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int count = Integer.parseInt(number.getText());
-		FrmBuyCom dlg = new FrmBuyCom(com,count);
 		this.setVisible(false);
+		FrmBuyCom dlg = new FrmBuyCom(com,count);
+		dlg.setVisible(true);
 	}
 }

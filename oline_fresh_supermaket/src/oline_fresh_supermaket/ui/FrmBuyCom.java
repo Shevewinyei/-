@@ -24,6 +24,7 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmBuyCom  extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private static List<Beancommodity> table;
 	private JMenuBar menubar=new JMenuBar(); 
 	private JMenu menu_buy=new JMenu("购买管理");
     private JMenu menu_more=new JMenu("更多");
@@ -116,6 +117,8 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 	}
 	public FrmBuyCom(Beancommodity com, int count) {
 		// TODO Auto-generated constructor stub
+		com.setCom_count(count);
+		table.add(com);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -127,6 +130,10 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 				return;
 			}
 			Frm_addcom dlg = new Frm_addcom(this.coms.get(i));
+			dlg.setVisible(true);
+		}
+		else if(e.getSource()==this.menu_buycar) {
+			Frm_BuyCar dlg = new Frm_BuyCar(table);
 			dlg.setVisible(true);
 		}
 	}
