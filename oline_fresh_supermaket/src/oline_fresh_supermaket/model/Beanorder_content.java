@@ -1,7 +1,7 @@
 package oline_fresh_supermaket.model;
 
 public class Beanorder_content {
-	public static final String[] tableTitles = {"商品编号","订单编号","商品数量","订单价格","订单折扣"};
+	public static final String[] tableTitles = {"商品编号","订单编号","商品数量","单笔商品价格","商品所享受的满折"};
 	int com_id;
 	int ord_id;
 	int Oc_count;
@@ -43,7 +43,7 @@ public class Beanorder_content {
 		else if(col==1) return this.getOrd_id()+"";
 		else if(col==2) return this.getOc_count()+"";
 		else if(col==3) return this.getOc_price()+"";
-		else if(col==4) return this.getOc_discount()+"";
+		else if (col == 4) return this.getOc_discount()+"";
 		else return "";
 	}
 	

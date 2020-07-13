@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import oline_fresh_supermaket.model.Beancoupon;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
+import oline_fresh_supermaket.util.BaseException;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -13,14 +18,16 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrmAddcoupon extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-
+	private JTextField abl_price;
+	private JTextField red_price;
+	private JTextField month;
+	private JTextPane content;
 	/**
 	 * Launch the application.
 	 */
@@ -56,20 +63,32 @@ public class FrmAddcoupon extends JFrame {
 		
 		JLabel lblNewLabel_3 = new JLabel("\u5177\u4F53\u63CF\u8FF0\u5185\u5BB9\uFF1A");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		abl_price = new JTextField();
+		abl_price.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		red_price = new JTextField();
+		red_price.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		month = new JTextField();
+		month.setColumns(10);
 		
-		JTextPane textPane = new JTextPane();
+		content = new JTextPane();
 		
 		JButton btnNewButton = new JButton("\u786E\u5B9A\u6DFB\u52A0");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//确定添加
+				addAction(e);
+			}
+		});
 		
 		JButton btnNewButton_1 = new JButton("\u53D6\u6D88");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//取消
+				setVisible(false);
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -89,11 +108,11 @@ public class FrmAddcoupon extends JFrame {
 								.addComponent(lblNewLabel_3))
 							.addGap(38)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(textPane)
+								.addComponent(content)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(textField_2)
-									.addComponent(textField_1)
-									.addComponent(textField)))
+									.addComponent(month)
+									.addComponent(red_price)
+									.addComponent(abl_price)))
 							.addContainerGap(105, Short.MAX_VALUE))))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -102,19 +121,19 @@ public class FrmAddcoupon extends JFrame {
 					.addGap(39)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(abl_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(red_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(28)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(month, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(28)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_3)
-						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+						.addComponent(content, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton)
@@ -122,5 +141,23 @@ public class FrmAddcoupon extends JFrame {
 					.addGap(14))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	private void addAction(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Beancoupon p = new Beancoupon();
+		p.setCou_content(content.getText());
+		p.setCou_abl_price(Double.parseDouble(abl_price.getText()));
+		p.setCou_redu_price(Double.parseDouble(red_price.getText()));
+		p.setCou_starttime(new java.sql.Date(System.currentTimeMillis()) );
+		int months = Integer.parseInt(month.getText());
+		p.setCou_enddate(new java.sql.Date(System.currentTimeMillis()+months*2592000000L+172800000L));
+		try {
+			oline_fresh_supermaketUtil.couponManager.add(p);
+			this.setVisible(false);
+		} catch (BaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

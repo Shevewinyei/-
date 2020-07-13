@@ -109,7 +109,7 @@ public class FDManager implements IFDManager {
 			pst.setInt(3, fD_com_count);
 			pst.setDouble(4, fD_discount);
 			pst.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-			pst.setDate(6, new java.sql.Date(System.currentTimeMillis()+2592000000L*fD_month));
+			pst.setDate(6, new java.sql.Date(System.currentTimeMillis()+2592000000L*fD_month+172800000L));
 			pst.execute();
 			rs.close();
 			pst.close();
@@ -150,6 +150,13 @@ public class FDManager implements IFDManager {
 			pst.setDate(4, new java.sql.Date(dct.getFD_enddate().getTime()));
 			pst.execute();
 			pst.close();
+			
+			sql = "update commodity set com_describe = ? where com_id = ?";
+			pst=conn.prepareStatement(sql);
+			pst.setString(1, dct.getFD_content());
+			pst.setInt(2, comid);
+			pst.execute();
+			pst.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);
@@ -164,6 +171,81 @@ public class FDManager implements IFDManager {
 				
 				}
 		}
+	}
+
+	@Override
+	public boolean isFDcom(int com_id,int count) throws BaseException {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select * from FD_com_connect where com_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, com_id);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if (!rs.next()) {
+				result = false;
+			}
+			else {
+				sql = "select FD_com_count from Full_discount where FD_id = "
+						+ "(select FD_id from FD_com_connect where com_id = ?)";
+				pst=conn.prepareStatement(sql);
+				pst.setInt(1, com_id);
+				rs=pst.executeQuery();
+				rs.next();
+				if(count>=rs.getInt(1)) {
+					result = true;
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public double discount_price(int com_id) throws BaseException {
+		// TODO Auto-generated method stub
+		double result = 0;
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select FD_discount from Full_discount where FD_id = "
+					+ "(select FD_id from FD_com_connect where com_id = ? )";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, com_id);
+			java.sql.ResultSet rs=pst.executeQuery();
+			rs.next();
+			result = rs.getDouble(1);
+			rs.close();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
 	}
 	
 

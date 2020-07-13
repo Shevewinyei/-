@@ -1,6 +1,7 @@
 package oline_fresh_supermaket.control;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,13 @@ import oline_fresh_supermaket.util.JDBCUtil;
 public class ordermessageManager implements IordermessageManager {
 
 	@Override
-	public Beanorder_message add(List<Beancommodity> coms) throws BaseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Beanorder_message> allload() throws BaseException {
 		// TODO Auto-generated method stub
 		List<Beanorder_message> result = new ArrayList<Beanorder_message>();
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
-			String sql = "select * from order_message where ord_id = (select ord_id from Relationship_2 where usr_id = ?)";
+			String sql = "select * from order_message where ord_id in (select ord_id from Relationship_2 where usr_id = ?)";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1, Beanuser.currentLoginUser.getUsr_id());
 			java.sql.ResultSet rs=pst.executeQuery();
@@ -37,7 +32,7 @@ public class ordermessageManager implements IordermessageManager {
 				p.setOrd_id(rs.getInt(1));
 				p.setOrd_startprice(rs.getDouble(2));
 				p.setOrd_endprice(rs.getDouble(3));
-				p.setOrd_time(rs.getTime(4));
+				p.setOrd_time(rs.getDate(4));
 				p.setOrd_state(rs.getString(5));
 				result.add(p);
 			}
@@ -58,6 +53,53 @@ public class ordermessageManager implements IordermessageManager {
 				}
 		}
 		return result;
+	}
+
+	@Override
+	public Beanorder_message AddOrder(Beanorder_message message) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select max(ord_id) from order_message";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) message.setOrd_id(1);
+			else {
+				message.setOrd_id(rs.getInt(1)+1);
+			}
+			rs.close();
+			
+			sql = "insert into order_message(ord_id,ord_startprice,ord_endprice,ord_time) values (?,?,?,?)";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1, message.getOrd_id());
+			pst.setDouble(2, message.getOrd_startprice());
+			pst.setDouble(3, message.getOrd_endprice());
+			pst.setDate(4, new java.sql.Date(message.getOrd_time().getTime()));
+			pst.execute();
+			pst.close();
+			
+			sql = "insert into Relationship_2(ord_id,usr_id) values (?,?)";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1, message.getOrd_id());
+			pst.setInt(2, Beanuser.currentLoginUser.getUsr_id());
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return message;
 	}
 
 }

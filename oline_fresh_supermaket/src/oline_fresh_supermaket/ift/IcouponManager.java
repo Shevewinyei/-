@@ -11,4 +11,6 @@ public interface IcouponManager {
 
 	public void deleteCou(int cou_id)throws BaseException;
 
+	public void add(Beancoupon p)throws BaseException;
+
 }

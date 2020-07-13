@@ -29,7 +29,7 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 	int count;
 	private JMenuBar menubar=new JMenuBar(); 
 	private JMenu menu_buy=new JMenu("购买管理");
-    private JMenu menu_more=new JMenu("更多");
+    //private JMenu menu_more=new JMenu("更多");
     
     private JMenuItem  menuItem_Add = new JMenuItem("加入购物车");
     private JMenuItem menu_buycar = new JMenuItem("查看购物车");
@@ -93,7 +93,7 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setTitle("商品表");
 		menubar.add(menu_buy);
-		menubar.add(menu_more);
+		//menubar.add(menu_more);
 		
 		this.menu_buy.add(this.menuItem_Add);
 		this.menuItem_Add.addActionListener(this);

@@ -20,7 +20,10 @@ import javax.swing.table.DefaultTableModel;
 import oline_fresh_supermaket.control.commodityManage;
 import oline_fresh_supermaket.model.Beanaddress;
 import oline_fresh_supermaket.model.Beancommodity;
+import oline_fresh_supermaket.model.Beanorder_content;
+import oline_fresh_supermaket.model.Beanorder_message;
 import oline_fresh_supermaket.model.Beanuser;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
 import oline_fresh_supermaket.util.BaseException;
 
 public class Frm_BuyCar extends JFrame implements ActionListener {
@@ -35,8 +38,8 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 	private Button btnDelete = new Button("删除商品");
 	private Button btncancel = new Button("退出");
 	private static List<Beancommodity> coms ;
-	private static double price;
-	private static double discount;
+	private double price;
+	private double discount;
 	private static String addrString ;
 	private Object tblTitle[]={"商品编号","商品名称","商品价格","商品vip价格","商品数量","商品规格","商品描述"};
 	private Object tblData[][];
@@ -70,7 +73,10 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		coms = table;
 		if(Beanuser.currentLoginUser.isUsr_isvip()) {
 			for (int i = 0; i < coms.size(); i++) {
-				price = price + coms.get(i).getCom_vip_price()*coms.get(i).getCom_count();
+				if(coms.get(i).getCom_vip_price() == 0) 
+					price = price + coms.get(i).getCom_price()*coms.get(i).getCom_count();
+				else 
+					price = price + coms.get(i).getCom_vip_price()*coms.get(i).getCom_count();
 			}
 		}
 		else {
@@ -78,8 +84,27 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 				price = price + coms.get(i).getCom_price()*coms.get(i).getCom_count();
 			}
 		}
+		for (int i = 0; i < coms.size(); i++) {
+			boolean p = false;
+			try {
+				p = oline_fresh_supermaketUtil.FDManager.isFDcom(coms.get(i).getCom_id(),coms.get(i).getCom_count());
+			} catch (BaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(p) {
+				double t = 0;
+				try {
+					t = oline_fresh_supermaketUtil.FDManager.discount_price(coms.get(i).getCom_id());
+				} catch (BaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				discount = price*(1-t);
+			}
+		}
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		Addrcurrent = new JLabel("地址：");
+		Addrcurrent = new JLabel("地址："+addrString);
 		toolBar.add(Addrcurrent);
 		toolBar.add(btnSetAddress);
 		toolBar.add(this.btnDelete);
@@ -87,9 +112,9 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		endJPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		finalprice = new JLabel("合计："+(price-discount));
+		finalprice = new JLabel("合计："+new java.text.DecimalFormat("#.00").format(price-discount));
 		endJPanel.add(finalprice);
-		discountprice = new JLabel("优惠："+discount);
+		discountprice = new JLabel("优惠："+new java.text.DecimalFormat("#.00").format(discount));
 		endJPanel.add(discountprice);
 		endJPanel.add(btnok);
 		this.getContentPane().add(endJPanel,BorderLayout.SOUTH);
@@ -177,9 +202,17 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 			dlg.setVisible(true);
 		}
 		else if(e.getSource()==this.btnok) {
-			if(Frm_BuyCar.addrString.isEmpty()) {
+			if(addrString.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "请选择送货地址！");
 			}
+			Beanorder_message p = new Beanorder_message();
+			p.setOrd_startprice(price);
+			p.setOrd_endprice(price-discount);
+			p.setOrd_time(new java.sql.Date(System.currentTimeMillis()));
+			FrmCouponChose dlg = new FrmCouponChose(p,coms);
+			dlg.setVisible(true);
+			this.setVisible(false);
+		//	Beanorder_content = oline_fresh_supermaketUtil.ordercontentManager.add(coms);
 		}
 	}
 

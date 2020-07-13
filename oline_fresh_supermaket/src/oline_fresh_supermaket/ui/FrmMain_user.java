@@ -135,6 +135,8 @@ public class FrmMain_user extends JFrame {
 		mntmNewMenuItem1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//菜谱详情
+				FrmMenu dlgFrmMenu = new FrmMenu();
+				dlgFrmMenu.setVisible(true);
 			}
 		});
 		
@@ -184,7 +186,9 @@ public class FrmMain_user extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u4F18\u60E0\u5238\u5361\u5305");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//优惠卡包
+				//优惠券卡包
+				FrmCoupon dlgCoupon = new FrmCoupon();
+				dlgCoupon.setVisible(true);
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_4);
@@ -235,8 +239,8 @@ public class FrmMain_user extends JFrame {
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_6);
 		
-		JMenu mnNewMenu_2 = new JMenu("\u66F4\u591A");
-		menuBar.add(mnNewMenu_2);
+		//JMenu mnNewMenu_2 = new JMenu("\u66F4\u591A");
+		//menuBar.add(mnNewMenu_2);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(245, 255, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

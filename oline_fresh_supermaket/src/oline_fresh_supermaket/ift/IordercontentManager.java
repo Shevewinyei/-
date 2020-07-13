@@ -11,4 +11,6 @@ public interface IordercontentManager {
 	public  Beanorder_content add(List<Beancommodity> coms) throws BaseException;
 
 	public List<Beanorder_content> allload(Beanorder_message ord)throws BaseException;
+
+	public void add(List<Beancommodity> table, int ord_id)throws BaseException;
 }

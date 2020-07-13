@@ -15,15 +15,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import oline_fresh_supermaket.model.Beancommodity;
 import oline_fresh_supermaket.model.Beancoupon;
+import oline_fresh_supermaket.model.Beanorder_message;
 import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
 import oline_fresh_supermaket.util.BaseException;
 
-public class FrmCouponManage extends JDialog implements ActionListener{
+public class FrmCouponChose extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
-	private Button btnAdd = new Button("添加优惠券");
-	private Button btnDelete = new Button("删除优惠券"); 
-	private Button btncancel = new Button("退出");  
+	private Beanorder_message message;
+	private List<Beancommodity> table;
+	private Button btnchose = new Button("选择优惠券");
+	private Button btn_no_chose = new Button("不使用优惠券");
 	private Object tblTitle[]= {"优惠券编号","内容","适用金额","减免金额","起始日期","结束日期"};
 	private Object tblData[][];
 	List<Beancoupon> pubs;
@@ -50,16 +53,13 @@ public class FrmCouponManage extends JDialog implements ActionListener{
 		}
 		
 	}
-	public static void main(String[] args) {
-		FrmCouponManage dlgCouponManage = new FrmCouponManage();
-		dlgCouponManage.setVisible(true);
-	}
-	public FrmCouponManage() {
-		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		toolBar.add(btnAdd);
-		toolBar.add(this.btnDelete);
-		toolBar.add(this.btncancel);
-		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+	public FrmCouponChose(Beanorder_message p, List<Beancommodity> coms) {
+		message = p;
+		table = coms;
+		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		toolBar.add(btn_no_chose);
+		toolBar.add(btnchose);
+		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -72,37 +72,50 @@ public class FrmCouponManage extends JDialog implements ActionListener{
 		
 		this.validate();
 		
-		this.btnAdd.addActionListener(this);
-		this.btnDelete.addActionListener(this);
-		this.btncancel.addActionListener(this);
+		this.btn_no_chose.addActionListener(this);
+		this.btnchose.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btncancel) {
-			this.setVisible(false);
-		}
-		else if(e.getSource()==this.btnAdd){
-			FrmAddcoupon dlgAddcoupon = new FrmAddcoupon();
-			dlgAddcoupon.setVisible(true);
-		}
-		else if(e.getSource()==this.btnDelete) {
+		if(e.getSource()==this.btnchose) {
 			int i=this.dataTable.getSelectedRow();
 			if(i<0) {
-				JOptionPane.showMessageDialog(null,  "请选择要删除的优惠券","提示",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,  "请选择要使用的优惠券","提示",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			Beancoupon p = this.pubs.get(i);
-			if(JOptionPane.showConfirmDialog(this,"确定删除吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+			if(p.getCou_abl_price()>message.getOrd_endprice()) {
+				JOptionPane.showMessageDialog(null,  "未达到优惠券的适用金额。","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			else {
+				message.setOrd_endprice(message.getOrd_endprice()-p.getCou_redu_price());
+			}
+			if(JOptionPane.showConfirmDialog(this,"确定使用吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
 				try {
-					oline_fresh_supermaketUtil.couponManager.deleteCou(p.getCou_id());
-					this.reloadTable();
-				} catch (BaseException e1) {
+					Beanorder_message ord = oline_fresh_supermaketUtil.ordermessageManager.AddOrder(message);
+					oline_fresh_supermaketUtil.ordercontentManager.add(table,ord.getOrd_id());
+					oline_fresh_supermaketUtil.comManager.update(table);
+					this.setVisible(false);
+				}catch (BaseException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
 				}
-				
 			}
+		
+		}
+		else if (e.getSource() == btn_no_chose) {
+			Beanorder_message ord;
+			try {
+				ord = oline_fresh_supermaketUtil.ordermessageManager.AddOrder(message);
+				oline_fresh_supermaketUtil.ordercontentManager.add(table,ord.getOrd_id());
+				oline_fresh_supermaketUtil.comManager.update(table);
+			} catch (BaseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			this.setVisible(false);
 		}
 	}
-
+	
 }

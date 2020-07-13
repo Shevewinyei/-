@@ -221,7 +221,7 @@ public class commodityManage implements IcommodityManage {
 			String sql = "select max(com_id) from commodity where FF_id = 3100";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
-			if(rs.next()) {
+			if(!rs.next()) {
 				result.setCom_id(100);
 				result.setLd_id(100);
 			}else {
@@ -260,6 +260,46 @@ public class commodityManage implements IcommodityManage {
 				}
 		}
 		return result;
+	}
+
+	@Override
+	public void update(List<Beancommodity> table) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			for(int i=0;i<table.size();i++) {
+				String sql = "select * from commodity where com_id = ?";
+				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+				pst.setInt(1, table.get(i).getCom_id());
+				java.sql.ResultSet rs=pst.executeQuery();
+				rs.next();
+				int count = rs.getInt(1);
+				
+				sql = "update commodity set com_count = ? where com_id = ?";
+				pst=conn.prepareStatement(sql);
+				pst.setInt(1, count - table.get(i).getCom_count());
+				pst.setInt(2, table.get(i).getCom_id());
+				pst.execute();
+				
+				rs.close();
+				pst.close();
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
 	}
 
 }

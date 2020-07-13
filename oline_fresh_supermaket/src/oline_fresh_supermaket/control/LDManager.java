@@ -71,7 +71,7 @@ public class LDManager implements ILDManager {
 			pst.setDouble(2, p.getCom_price());
 			pst.setInt(3, p.getCom_count());
 			pst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
-			pst.setDate(5, new java.sql.Date(System.currentTimeMillis()+86400000));
+			pst.setDate(5, new java.sql.Date(System.currentTimeMillis()+86400000L+172800000L));
 			pst.execute();
 			pst.close();
 		}catch (SQLException e) {
