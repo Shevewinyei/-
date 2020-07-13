@@ -74,7 +74,7 @@ public class FrmBuyCom  extends JFrame implements ActionListener {
 		if(planIdx<0) return;
 		curFF=allFF.get(planIdx);
 		try {
-			coms=oline_fresh_supermaketUtil.comManager.loadall(curFF);
+			coms=oline_fresh_supermaketUtil.comManager.loadall(curFF.getFF_id());
 		} catch (BaseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
 			return;

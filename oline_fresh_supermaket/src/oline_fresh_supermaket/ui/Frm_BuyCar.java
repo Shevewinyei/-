@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,15 +18,26 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import oline_fresh_supermaket.control.commodityManage;
+import oline_fresh_supermaket.model.Beanaddress;
 import oline_fresh_supermaket.model.Beancommodity;
+import oline_fresh_supermaket.model.Beanuser;
 import oline_fresh_supermaket.util.BaseException;
 
 public class Frm_BuyCar extends JFrame implements ActionListener {
 	private JPanel toolBar = new JPanel();
+	private JPanel endJPanel = new JPanel();
+	private static Beanaddress pBeanaddress = new Beanaddress();
+	private JLabel Addrcurrent;     //当前地址
+	private JLabel finalprice;	    //合计价格（优惠后价格）
+	private JLabel discountprice;   //优惠价格
+	private Button btnSetAddress = new Button("修改当前地址");
 	private Button btnok = new Button("确认订单");
 	private Button btnDelete = new Button("删除商品");
 	private Button btncancel = new Button("退出");
 	private static List<Beancommodity> coms ;
+	private static double price;
+	private static double discount;
+	private static String addrString ;
 	private Object tblTitle[]={"商品编号","商品名称","商品价格","商品vip价格","商品数量","商品规格","商品描述"};
 	private Object tblData[][];
 	List<Beancommodity> pubs = null;
@@ -48,18 +60,39 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		this.dataTable.repaint();
 		
 	}
-	public static void main(String[] args) {
-		Frm_BuyCar dlg = new Frm_BuyCar();
-		dlg.setVisible(true);
-	}
+	
+//	public static void main(String[] args) {
+//		Frm_BuyCar dlg = new Frm_BuyCar();
+//		dlg.setVisible(true);
+//	}
 	public Frm_BuyCar(List<Beancommodity> table) {
 		// TODO Auto-generated constructor stub
 		coms = table;
+		if(Beanuser.currentLoginUser.isUsr_isvip()) {
+			for (int i = 0; i < coms.size(); i++) {
+				price = price + coms.get(i).getCom_vip_price()*coms.get(i).getCom_count();
+			}
+		}
+		else {
+			for (int i = 0; i < coms.size(); i++) {
+				price = price + coms.get(i).getCom_price()*coms.get(i).getCom_count();
+			}
+		}
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		toolBar.add(btnok);
+		Addrcurrent = new JLabel("地址：");
+		toolBar.add(Addrcurrent);
+		toolBar.add(btnSetAddress);
 		toolBar.add(this.btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		
+		endJPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		finalprice = new JLabel("合计："+(price-discount));
+		endJPanel.add(finalprice);
+		discountprice = new JLabel("优惠："+discount);
+		endJPanel.add(discountprice);
+		endJPanel.add(btnok);
+		this.getContentPane().add(endJPanel,BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -75,15 +108,28 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		
 		this.btnDelete.addActionListener(this);
 		this.btncancel.addActionListener(this);
+		this.btnSetAddress.addActionListener(this);
+		this.btnok.addActionListener(this);
 	}
-	public Frm_BuyCar() {
+	public Frm_BuyCar(Beanaddress p) {
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		toolBar.add(btnok);
+		addrString = p.getAddr_pro()+p.getAddr_city()+p.getAddr_area()+p.getAddr_current();
+		Addrcurrent = new JLabel("地址：" + addrString);
+		toolBar.add(Addrcurrent);
+		toolBar.add(btnSetAddress);
 		toolBar.add(this.btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		
+		endJPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		finalprice = new JLabel("合计：");
+		endJPanel.add(finalprice);
+		discountprice = new JLabel("优惠：");
+		endJPanel.add(discountprice);
+		endJPanel.add(btnok);
+		this.getContentPane().add(endJPanel,BorderLayout.SOUTH);
 		//提取现有数据
-		//this.reloadTable();
+		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
 	
 		// 屏幕居中显示
@@ -95,17 +141,18 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		
 		this.validate();
 		
-		this.btnok.addActionListener(this);
 		this.btnDelete.addActionListener(this);
 		this.btncancel.addActionListener(this);
+		this.btnSetAddress.addActionListener(this);
+		this.btnok.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btncancel) {
+		if(e.getSource()==this.btncancel) {
 			this.setVisible(false);
 		}
-		else if(e.getSource()== btnDelete) {
+		else if(e.getSource()== this.btnDelete) {
 			int i=this.dataTable.getSelectedRow();
 			if(i<0) {
 				JOptionPane.showMessageDialog(null,  "请选择商品","提示",JOptionPane.ERROR_MESSAGE);
@@ -124,8 +171,15 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 			}
 				
 		}
-		else if(e.getSource()==btnok) {
-			
+		else if(e.getSource()==this.btnSetAddress){
+			this.setVisible(false);
+			FrmchoseAddress dlg = new FrmchoseAddress();
+			dlg.setVisible(true);
+		}
+		else if(e.getSource()==this.btnok) {
+			if(Frm_BuyCar.addrString.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "请选择送货地址！");
+			}
 		}
 	}
 

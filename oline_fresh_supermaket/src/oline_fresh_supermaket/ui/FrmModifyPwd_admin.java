@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 public class FrmModifyPwd_admin extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField Admin_name;
 	private JPasswordField oldpwd;
 	private JPasswordField newpwd;
 	private JPasswordField newpwd2;
@@ -57,14 +56,9 @@ public class FrmModifyPwd_admin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("\u7BA1\u7406\u5458\u540D\u79F0\uFF1A");
-		
 		JLabel lblNewLabel_1 = new JLabel("\u65E7  \u5BC6  \u7801\uFF1A");
 		
 		JLabel lblNewLabel_2 = new JLabel("\u65B0  \u5BC6  \u7801\uFF1A");
-		
-		Admin_name = new JTextField();
-		Admin_name.setColumns(10);
 		
 		oldpwd = new JPasswordField();
 		
@@ -95,41 +89,34 @@ public class FrmModifyPwd_admin extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(75)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewLabel_1)
-								.addComponent(lblNewLabel)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblNewLabel_3)
-									.addComponent(lblNewLabel_2)))
+							.addGap(85)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_3)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_1))
 							.addGap(37)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(newpwd2)
-								.addComponent(newpwd)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(oldpwd)
-								.addComponent(Admin_name)))
+								.addComponent(newpwd)
+								.addComponent(newpwd2, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(94)
 							.addComponent(ModifyButton)
 							.addGap(56)
 							.addComponent(CancelButton)))
-					.addContainerGap(120, Short.MAX_VALUE))
+					.addGap(120))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(49)
+					.addGap(48)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(Admin_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel))
+						.addComponent(lblNewLabel_1)
+						.addComponent(oldpwd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(oldpwd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(newpwd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_2))
+						.addComponent(lblNewLabel_2)
+						.addComponent(newpwd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_3)
@@ -138,7 +125,7 @@ public class FrmModifyPwd_admin extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(ModifyButton)
 						.addComponent(CancelButton))
-					.addContainerGap(18, Short.MAX_VALUE))
+					.addContainerGap(8, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

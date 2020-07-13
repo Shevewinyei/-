@@ -161,7 +161,7 @@ public class commodityManage implements IcommodityManage {
 	}
 
 	@Override
-	public List<Beancommodity> loadall(BeanFF ff) throws BaseException {
+	public List<Beancommodity> loadall(int ffid) throws BaseException {
 		// TODO Auto-generated method stub
 		List<Beancommodity> result = new ArrayList<Beancommodity>();
 		Connection conn = null;
@@ -169,9 +169,9 @@ public class commodityManage implements IcommodityManage {
 			conn=JDBCUtil.getConnection();
 			String sql = "select com_id,com_name,com_price,com_vip_price,"
 					+ "com_count,com_specification,com_describe from commodity "
-					+ "where FF_id = ?";
+					+ "where FF_id = ? order by com_id";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setInt(1, ff.getFF_id());
+			pst.setInt(1, ffid);
 			java.sql.ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
 				Beancommodity p = new Beancommodity();
@@ -186,6 +186,57 @@ public class commodityManage implements IcommodityManage {
 			}
 			rs.close();
 			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public Beancommodity add(String name,double lDprice, int lDcount) throws BaseException {
+		// TODO Auto-generated method stub
+		Beancommodity result = new Beancommodity();
+		Connection conn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "select max(com_id) from commodity where FF_id = 3100";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) {
+				result.setCom_id(100);
+				result.setLd_id(100);
+			}else {
+				result.setCom_id(rs.getInt(1)+1);
+				result.setLd_id(rs.getInt(1)+1);
+			}
+			sql = "insert into commodity(com_id,FF_id,com_name,com_price,com_vip_price,"
+					+ "com_count,com_specification,com_describe) values (?,?,?,?,?,?,?,?)";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1,result.getCom_id());
+			pst.setInt(2, 3100);
+			pst.setString(3,name);
+			pst.setDouble(4, lDprice);
+			pst.setDouble(5, 0);
+			pst.setInt(6,lDcount);
+			pst.setString(7,"斤");
+			pst.setString(8, "限时促销商品！");
+			pst.execute();
+			pst.close();
+			
+			result.setCom_name(name);
+			result.setCom_price(lDprice);
+			result.setCom_count(lDcount);
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);

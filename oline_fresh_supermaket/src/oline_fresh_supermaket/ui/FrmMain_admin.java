@@ -96,19 +96,41 @@ public class FrmMain_admin extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
-		/**
-		 * 顾客账户管理
-		 */
-		JMenu mnNewMenu_2 = new JMenu("\u987E\u5BA2\u8D26\u6237\u7BA1\u7406");
-		menuBar.add(mnNewMenu_2);
 		
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u7528\u6237\u8D26\u53F7\u7BA1\u7406");
-		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+		JMenu mnNewMenu_4 = new JMenu("\u4F18\u60E0\u7BA1\u7406");
+		menuBar.add(mnNewMenu_4);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("\u9650\u65F6\u4FC3\u9500\u5546\u54C1\u7BA1\u7406");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//用户账号管理
+				//限时促销商品管理
+				FrmLDManage dlg = new FrmLDManage();
+				dlg.setVisible(true);
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_7);
+		mnNewMenu_4.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u6EE1\u6298\u5546\u54C1\u7BA1\u7406");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//满折商品管理
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u4F18\u60E0\u5238\u7BA1\u7406");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//优惠券管理
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_3);
+		
+		JMenu mnNewMenu_2 = new JMenu("\u63A8\u8350\u83DC\u8C31");
+		menuBar.add(mnNewMenu_2);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("\u63A8\u8350\u83DC\u8C31\u7BA1\u7406");
+		mnNewMenu_2.add(mntmNewMenuItem_5);
 		
 		JMenu mnNewMenu_3 = new JMenu("\u66F4\u591A");
 		menuBar.add(mnNewMenu_3);

@@ -12,8 +12,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import oline_fresh_supermaket.control.FDManager;
+import oline_fresh_supermaket.control.FFManage;
+import oline_fresh_supermaket.control.LDManager;
+import oline_fresh_supermaket.control.commodityManage;
 import oline_fresh_supermaket.model.BeanFD_com_connect;
+import oline_fresh_supermaket.model.BeanFF;
 import oline_fresh_supermaket.model.BeanFull_discount;
+import oline_fresh_supermaket.model.Beancommodity;
+import oline_fresh_supermaket.model.Beanlimit_discount;
 import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
 import oline_fresh_supermaket.util.BaseException;
 
@@ -64,17 +70,24 @@ public class FrmMain_user extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	private Object tblTitle2[]={"限时优惠信息"};
+	private Object tblTitle2[]={"商品名称","限时优惠价格","开始时间","结束时间"};
 	private Object tblData2[][];
-	List<BeanFull_discount> pubs2;
+	List<Beancommodity> pubs2;
+	List<Beanlimit_discount> pubs3;
 	DefaultTableModel tablmod2=new DefaultTableModel();
 	private JTable dataTable2 =new JTable(tablmod2);
 	private void reloadTable2(){
 		try {
-			pubs2 = (new FDManager().loadFD());
-			tblData2 =new Object[pubs2.size()][1];
+			pubs2 = (new commodityManage().loadall(3100));
+			pubs3 = (new LDManager().loadall());
+			tblData2 =new Object[pubs2.size()][4];
 			for(int i=0;i<pubs2.size();i++){
-			//	tblData2[i][0] = pubs2.get(i).getFD_content();
+				tblData2[i][0] = pubs2.get(i).getCom_name();
+			}
+			for (int i = 0; i < pubs3.size(); i++) {
+				tblData2[i][1] = pubs3.get(i).getLD_price();
+				tblData2[i][2] = pubs3.get(i).getLD_starttime();
+				tblData2[i][3] = pubs3.get(i).getLD_enddate();
 			}
 			tablmod2.setDataVector(tblData2,tblTitle2);
 			dataTable2.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
@@ -113,6 +126,17 @@ public class FrmMain_user extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
+		
+		
+		JMenu mnNewMenu1 = new JMenu("推荐菜谱");
+		menuBar.add(mnNewMenu1);
+		JMenuItem mntmNewMenuItem1 = new JMenuItem("菜谱详情");
+		mnNewMenu1.add(mntmNewMenuItem1);
+		mntmNewMenuItem1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//菜谱详情
+			}
+		});
 		
 		JMenu mnNewMenu_1 = new JMenu("\u8BA2\u5355");
 		menuBar.add(mnNewMenu_1);
