@@ -135,6 +135,8 @@ public class FrmMain_admin extends JFrame {
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//ÍÆ¼ö²ËÆ×¹ÜÀí
+				FrmMenuManage dlgFrmMenuManage = new FrmMenuManage();
+				dlgFrmMenuManage.setVisible(true);
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_5);

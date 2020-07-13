@@ -57,12 +57,12 @@ public class FDManager implements IFDManager {
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
-			String sql ="delete from Full_discount where FD_id = ?";
+			String sql ="delete from FD_com_connect where FD_id = ?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1, fd_id);
 			pst.execute();
 			
-			sql = "delete from FD_com_connect where FD_id = ?";
+			sql = "delete from Full_discount where FD_id = ?";
 			pst=conn.prepareStatement(sql);
 			pst.setInt(1, fd_id);
 			pst.execute();

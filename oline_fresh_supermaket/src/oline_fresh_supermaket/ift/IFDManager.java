@@ -11,7 +11,6 @@ public interface IFDManager {
 
 	public void delete(int fd_id)throws BaseException;
 	public void add_FD(String fD_content, int fD_com_count, double fD_discount, int fD_month)throws BaseException;
-
 	public void addFD_com(int comid, BeanFull_discount dct)throws BaseException;
 	
 }
