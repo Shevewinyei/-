@@ -122,4 +122,32 @@ public class menuManager implements ImenuManager {
 		}
 	}
 
+	@Override
+	public void Addmenu_com(int com_id, int menu_id) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql ="insert into com_menu(com_id,men_id) values (?,?)";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, com_id);
+			pst.setInt(2, menu_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
 }

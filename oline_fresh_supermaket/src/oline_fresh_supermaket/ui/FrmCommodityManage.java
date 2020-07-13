@@ -141,7 +141,9 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 				comid = Integer.parseInt(com_id);
 			}
 			try {
-				this.pubs = oline_fresh_supermaketUtil.comManager.seachcommodity(comid);
+				
+				Beancommodity p = oline_fresh_supermaketUtil.comManager.seachcommodity(comid);
+				this.pubs.add(p);
 				this.reloadTable(pubs);
 			}catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);

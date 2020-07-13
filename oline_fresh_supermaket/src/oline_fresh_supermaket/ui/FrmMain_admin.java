@@ -89,14 +89,6 @@ public class FrmMain_admin extends JFrame {
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u5546\u54C1\u91C7\u8D2D\u8BB0\u5F55");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//商品采购记录
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_4);
-		
 		JMenu mnNewMenu_4 = new JMenu("\u4F18\u60E0\u7BA1\u7406");
 		menuBar.add(mnNewMenu_4);
 		
@@ -124,6 +116,8 @@ public class FrmMain_admin extends JFrame {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//优惠券管理
+				FrmCouponManage dlgCouponManage = new FrmCouponManage();
+				dlgCouponManage.setVisible(true);
 			}
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_3);

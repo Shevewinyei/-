@@ -59,7 +59,7 @@ public class commodityManage implements IcommodityManage {
 	public Beancommodity addcommodity(Beancommodity commodity) throws BaseException {
 		// TODO Auto-generated method stub
 		Beancommodity result = new Beancommodity();
-		if(commodity.getCom_id()<100) throw new BaseException("输入商品编号必须大于100！");
+		if(commodity.getCom_id()>=100) throw new BaseException("输入商品编号必须大于100！");
 		Connection conn=null;
 		try {
 			conn = JDBCUtil.getConnection();
@@ -128,9 +128,9 @@ public class commodityManage implements IcommodityManage {
 	}
 
 	@Override
-	public List<Beancommodity> seachcommodity(int comid) throws BaseException {
+	public Beancommodity seachcommodity(int comid) throws BaseException {
 		// TODO Auto-generated method stub
-		List<Beancommodity> result = new ArrayList<Beancommodity>();
+		Beancommodity result = new Beancommodity();
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
@@ -139,16 +139,15 @@ public class commodityManage implements IcommodityManage {
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1, comid);
 			java.sql.ResultSet rs=pst.executeQuery();
-			while(rs.next()) {
-				Beancommodity p = new Beancommodity();
-				p.setCom_id(rs.getInt(1));
-				p.setCom_name(rs.getString(2));
-				p.setCom_price(rs.getDouble(3));
-				p.setCom_vip_price(rs.getDouble(4));
-				p.setCom_count(rs.getInt(5));
-				p.setCom_specification(rs.getString(6));
-				p.setCom_describle(rs.getString(7));
-				result.add(p);
+			if(!rs.next()) throw new BaseException("查询失败，无该编号商品!");
+			else{
+				result.setCom_id(rs.getInt(1));
+				result.setCom_name(rs.getString(2));
+				result.setCom_price(rs.getDouble(3));
+				result.setCom_vip_price(rs.getDouble(4));
+				result.setCom_count(rs.getInt(5));
+				result.setCom_specification(rs.getString(6));
+				result.setCom_describle(rs.getString(7));
 			}
 			rs.close();
 			pst.close();
@@ -222,7 +221,7 @@ public class commodityManage implements IcommodityManage {
 			String sql = "select max(com_id) from commodity where FF_id = 3100";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
-			if(!rs.next()) {
+			if(rs.next()) {
 				result.setCom_id(100);
 				result.setLd_id(100);
 			}else {

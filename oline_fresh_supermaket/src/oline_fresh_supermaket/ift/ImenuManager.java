@@ -13,5 +13,7 @@ public interface ImenuManager {
 
 	public void Addmenu(BeanMenu p)throws BaseException;
 
+	public void Addmenu_com(int com_id, int menu_id)throws BaseException;
+
 
 }
