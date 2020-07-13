@@ -32,6 +32,7 @@ public class FrmAddCommodity extends JFrame {
 	private JTextField com_count;
 	private JTextField com_spec;
 	private JTextPane com_describle = new JTextPane();
+	private JTextField FF;
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +55,7 @@ public class FrmAddCommodity extends JFrame {
 	public FrmAddCommodity() {
 		setTitle("\u6DFB\u52A0\u5546\u54C1");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 460, 492);
+		setBounds(100, 100, 460, 565);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -106,36 +107,45 @@ public class FrmAddCommodity extends JFrame {
 				cancel_actionPerformed(e);
 			}
 		});
+		
+		JLabel lblNewLabel_7 = new JLabel("\u5546\u54C1\u7C7B\u522B\uFF1A");
+		
+		FF = new JTextField();
+		FF.setColumns(10);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(106, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_2)
-						.addComponent(lblNewLabel_3)
-						.addComponent(lblNewLabel_4)
-						.addComponent(lblNewLabel_5)
-						.addComponent(lblNewLabel_6))
-					.addGap(53)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(com_describle)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(com_spec)
-							.addComponent(com_count)
-							.addComponent(com_vip_price)
-							.addComponent(com_price)
-							.addComponent(com_name)
-							.addComponent(com_id)))
-					.addGap(88))
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(83)
+					.addContainerGap(71, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_7, Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel)
+								.addComponent(lblNewLabel_1)
+								.addComponent(lblNewLabel_6)
+								.addComponent(lblNewLabel_3)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_5)
+								.addComponent(lblNewLabel_4))
+							.addGap(53)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(com_spec)
+									.addComponent(com_count)
+									.addComponent(com_vip_price)
+									.addComponent(com_name)
+									.addComponent(com_id)
+									.addComponent(com_price)
+									.addComponent(FF))
+								.addComponent(com_describle, GroupLayout.PREFERRED_SIZE, 161, GroupLayout.PREFERRED_SIZE))
+							.addGap(122))))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(67)
 					.addComponent(btnNewButton)
-					.addGap(57)
+					.addGap(98)
 					.addComponent(btnNewButton_1)
-					.addContainerGap(76, Short.MAX_VALUE))
+					.addContainerGap(135, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -148,31 +158,35 @@ public class FrmAddCommodity extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
 						.addComponent(com_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(16)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_7)
+						.addComponent(FF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(23)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
 						.addComponent(com_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(17)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_3)
 						.addComponent(com_vip_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_4)
 						.addComponent(com_count, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_5)
 						.addComponent(com_spec, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_6)
 						.addComponent(com_describle, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+					.addGap(30)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton)
 						.addComponent(btnNewButton_1))
-					.addGap(20))
+					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -181,6 +195,7 @@ public class FrmAddCommodity extends JFrame {
 		// TODO Auto-generated method stub
 		Beancommodity p = new Beancommodity();
 		p.setCom_id(Integer.parseInt(com_id.getText()));
+		p.setFF_id(Integer.parseInt(this.FF.getText()));
 		p.setCom_name(com_name.getText());
 		p.setCom_price(Double.parseDouble(com_price.getText()));
 		p.setCom_vip_price(Double.parseDouble(com_vip_price.getText()));

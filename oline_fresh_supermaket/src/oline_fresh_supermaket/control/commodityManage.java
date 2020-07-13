@@ -59,19 +59,28 @@ public class commodityManage implements IcommodityManage {
 	public Beancommodity addcommodity(Beancommodity commodity) throws BaseException {
 		// TODO Auto-generated method stub
 		Beancommodity result = new Beancommodity();
+		if(commodity.getCom_id()<100) throw new BaseException("输入商品编号必须大于100！");
 		Connection conn=null;
 		try {
 			conn = JDBCUtil.getConnection();
-			String sql = "insert into commodity(com_id,com_name,com_price,com_vip_price,"
-					+ "com_count,com_specification,com_describe) values (?,?,?,?,?,?,?)";
+			String sql = "select * from FF where FF_id = ?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, commodity.getFF_id());
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) throw new BaseException("该商品类型不存在。请先创建新的商品类型。");
+			rs.close();
+			
+			sql = "insert into commodity(com_id,FF_id,com_name,com_price,com_vip_price,"
+					+ "com_count,com_specification,com_describe) values (?,?,?,?,?,?,?,?)";
+			pst=conn.prepareStatement(sql);
 			pst.setInt(1, commodity.getCom_id());
-			pst.setString(2, commodity.getCom_name());
-			pst.setDouble(3, commodity.getCom_price());
-			pst.setDouble(4, commodity.getCom_vip_price());
-			pst.setInt(5, commodity.getCom_count());
-			pst.setString(6, commodity.getCom_specification());
-			pst.setString(7, commodity.getCom_describle());
+			pst.setInt(2, commodity.getFF_id());
+			pst.setString(3, commodity.getCom_name());
+			pst.setDouble(4, commodity.getCom_price());
+			pst.setDouble(5, commodity.getCom_vip_price());
+			pst.setInt(6, commodity.getCom_count());
+			pst.setString(7, commodity.getCom_specification());
+			pst.setString(8, commodity.getCom_describle());
 			pst.execute();
 			pst.close();
 			

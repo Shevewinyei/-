@@ -114,6 +114,8 @@ public class FrmMain_admin extends JFrame {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//满折商品管理
+				FrmFDManage dlgFdManage = new FrmFDManage();
+				dlgFdManage.setVisible(true);
 			}
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_1);
@@ -130,6 +132,11 @@ public class FrmMain_admin extends JFrame {
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("\u63A8\u8350\u83DC\u8C31\u7BA1\u7406");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//推荐菜谱管理
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_5);
 		
 		JMenu mnNewMenu_3 = new JMenu("\u66F4\u591A");
