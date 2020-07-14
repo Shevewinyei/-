@@ -263,28 +263,28 @@ public class commodityManage implements IcommodityManage {
 	}
 
 	@Override
-	public void update(List<Beancommodity> table) throws BaseException {
+	public void update(Beancommodity p) throws BaseException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
+		int count = 0;
 		try {
 			conn = JDBCUtil.getConnection();
-			for(int i=0;i<table.size();i++) {
-				String sql = "select * from commodity where com_id = ?";
-				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-				pst.setInt(1, table.get(i).getCom_id());
-				java.sql.ResultSet rs=pst.executeQuery();
-				rs.next();
-				int count = rs.getInt(1);
-				
-				sql = "update commodity set com_count = ? where com_id = ?";
-				pst=conn.prepareStatement(sql);
-				pst.setInt(1, count - table.get(i).getCom_count());
-				pst.setInt(2, table.get(i).getCom_id());
-				pst.execute();
-				
-				rs.close();
-				pst.close();
+			String sql = "select * from commodity where com_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, p.getCom_id());
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(7);
 			}
+			rs.close();
+			
+			sql = "update commodity set com_count = ? where com_id = ?";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1, count - p.getCom_count());
+			pst.setInt(2,p.getCom_id());
+			pst.execute();
+			pst.close();
+			
 			
 		}catch (SQLException e) {
 			e.printStackTrace();

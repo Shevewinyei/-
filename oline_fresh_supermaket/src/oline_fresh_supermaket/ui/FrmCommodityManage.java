@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -133,6 +134,7 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 			this.setVisible(false);
 		}
 		else if(e.getSource()==btnSearch) {
+			List<Beancommodity> pubs1 = new ArrayList<Beancommodity>();
 			int comid;
 			String com_id = edtKeyword.getText();
 			if(com_id.isEmpty()) {
@@ -141,10 +143,9 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 				comid = Integer.parseInt(com_id);
 			}
 			try {
-				
 				Beancommodity p = oline_fresh_supermaketUtil.comManager.seachcommodity(comid);
-				this.pubs.add(p);
-				this.reloadTable(pubs);
+				pubs1.add(p);
+				this.reloadTable(pubs1);
 			}catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
 				return;

@@ -1,0 +1,378 @@
+/*
+ Navicat MySQL Data Transfer
+
+ Source Server         : test
+ Source Server Type    : MySQL
+ Source Server Version : 50719
+ Source Host           : localhost
+ Source Database       : market
+
+ Target Server Type    : MySQL
+ Target Server Version : 50719
+ File Encoding         : utf-8
+
+ Date: 07/14/2020 10:33:40 AM
+*/
+
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `Administrator`
+-- ----------------------------
+DROP TABLE IF EXISTS `Administrator`;
+CREATE TABLE `Administrator` (
+  `admin_id` int(11) NOT NULL,
+  `admin_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `admin_pwd` char(10) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`admin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `Administrator`
+-- ----------------------------
+BEGIN;
+INSERT INTO `Administrator` VALUES ('1', '123', '1234'), ('2', '22', '22');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `FD_com_connect`
+-- ----------------------------
+DROP TABLE IF EXISTS `FD_com_connect`;
+CREATE TABLE `FD_com_connect` (
+  `com_id` int(11) NOT NULL,
+  `FD_id` int(11) NOT NULL,
+  `FD_enddate` datetime DEFAULT NULL,
+  `FD_startdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`com_id`,`FD_id`),
+  KEY `FK_FD_com_connect1` (`FD_id`),
+  CONSTRAINT `FK_FD_com_connect` FOREIGN KEY (`com_id`) REFERENCES `commodity` (`com_id`),
+  CONSTRAINT `FK_FD_com_connect1` FOREIGN KEY (`FD_id`) REFERENCES `Full_discount` (`FD_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `FD_com_connect`
+-- ----------------------------
+BEGIN;
+INSERT INTO `FD_com_connect` VALUES ('1', '1', '2020-09-14 00:00:00', '2020-07-14 00:00:00'), ('2', '1', '2020-09-14 00:00:00', '2020-07-14 00:00:00');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `FF`
+-- ----------------------------
+DROP TABLE IF EXISTS `FF`;
+CREATE TABLE `FF` (
+  `FF_id` int(11) NOT NULL,
+  `FF_name` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `FF_describe` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`FF_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `FF`
+-- ----------------------------
+BEGIN;
+INSERT INTO `FF` VALUES ('3100', '特价商品', '限时特价商品'), ('3101', '乳制品', '牛奶等'), ('3102', '家禽', '鸡鸭鹅'), ('3103', '蔬菜', '');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `Full_discount`
+-- ----------------------------
+DROP TABLE IF EXISTS `Full_discount`;
+CREATE TABLE `Full_discount` (
+  `FD_id` int(11) NOT NULL,
+  `FD_content` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `FD_com_count` int(11) DEFAULT NULL,
+  `FD_discount` decimal(2,2) DEFAULT NULL,
+  `FD_startdate` datetime DEFAULT NULL,
+  `FD_enddate` datetime DEFAULT NULL,
+  PRIMARY KEY (`FD_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `Full_discount`
+-- ----------------------------
+BEGIN;
+INSERT INTO `Full_discount` VALUES ('1', '两件九折优惠！', '2', '0.90', '2020-07-14 00:00:00', '2020-09-14 00:00:00');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `Relationship_2`
+-- ----------------------------
+DROP TABLE IF EXISTS `Relationship_2`;
+CREATE TABLE `Relationship_2` (
+  `ord_id` int(11) NOT NULL,
+  `usr_id` int(11) NOT NULL,
+  PRIMARY KEY (`ord_id`,`usr_id`),
+  KEY `FK_Relationship_2_1` (`usr_id`),
+  CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`ord_id`) REFERENCES `order_message` (`ord_id`),
+  CONSTRAINT `FK_Relationship_2_1` FOREIGN KEY (`usr_id`) REFERENCES `user` (`usr_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `Relationship_2`
+-- ----------------------------
+BEGIN;
+INSERT INTO `Relationship_2` VALUES ('1', '1'), ('2', '1'), ('3', '1'), ('4', '1'), ('5', '1');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `Relationship_4`
+-- ----------------------------
+DROP TABLE IF EXISTS `Relationship_4`;
+CREATE TABLE `Relationship_4` (
+  `ord_id` int(11) NOT NULL,
+  `cou_id` int(11) NOT NULL,
+  PRIMARY KEY (`ord_id`,`cou_id`),
+  KEY `FK_Relationship_4_1` (`cou_id`),
+  CONSTRAINT `FK_Relationship_4` FOREIGN KEY (`ord_id`) REFERENCES `order_message` (`ord_id`),
+  CONSTRAINT `FK_Relationship_4_1` FOREIGN KEY (`cou_id`) REFERENCES `coupon` (`cou_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `Relationship_7`
+-- ----------------------------
+DROP TABLE IF EXISTS `Relationship_7`;
+CREATE TABLE `Relationship_7` (
+  `purchase_id` int(11) NOT NULL,
+  `com_id` int(11) NOT NULL,
+  PRIMARY KEY (`purchase_id`,`com_id`),
+  KEY `FK_Relationship_7` (`com_id`),
+  CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`com_id`) REFERENCES `commodity` (`com_id`),
+  CONSTRAINT `FK_Relationship_7_1` FOREIGN KEY (`purchase_id`) REFERENCES `com_purchase` (`purchase_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `address`
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address` (
+  `addr_id` int(11) NOT NULL,
+  `usr_id` int(11) DEFAULT NULL,
+  `addr_pro` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `addr_city` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `addr_area` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `addr_current` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`addr_id`),
+  KEY `FK_Relationship_3` (`usr_id`),
+  CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`usr_id`) REFERENCES `user` (`usr_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `address`
+-- ----------------------------
+BEGIN;
+INSERT INTO `address` VALUES ('1', '1', '浙江省', '杭州市', '拱墅区', '沈半路'), ('2', '1', '浙江省', '杭州市', '西湖区', '凤起路XX小区XX楼XXX');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `com_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `com_menu`;
+CREATE TABLE `com_menu` (
+  `com_id` int(11) NOT NULL,
+  `men_id` int(11) NOT NULL,
+  `describle` varchar(400) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`com_id`,`men_id`),
+  KEY `FK_com_menu1` (`men_id`),
+  CONSTRAINT `FK_com_menu` FOREIGN KEY (`com_id`) REFERENCES `commodity` (`com_id`),
+  CONSTRAINT `FK_com_menu1` FOREIGN KEY (`men_id`) REFERENCES `menu` (`men_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `com_menu`
+-- ----------------------------
+BEGIN;
+INSERT INTO `com_menu` VALUES ('1', '1', null), ('2', '1', null), ('3', '1', null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `com_purchase`
+-- ----------------------------
+DROP TABLE IF EXISTS `com_purchase`;
+CREATE TABLE `com_purchase` (
+  `purchase_id` int(11) NOT NULL,
+  `admin_id` int(11) DEFAULT NULL,
+  `purchase_count` int(11) DEFAULT NULL,
+  `purchase_state` char(2) COLLATE utf8_bin DEFAULT NULL,
+  `purchase_time` datetime DEFAULT NULL,
+  `arrive_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`purchase_id`),
+  KEY `FK_Relationship_6` (`admin_id`),
+  CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`admin_id`) REFERENCES `Administrator` (`admin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `commodity`
+-- ----------------------------
+DROP TABLE IF EXISTS `commodity`;
+CREATE TABLE `commodity` (
+  `com_id` int(11) NOT NULL,
+  `LD_id` int(11) DEFAULT NULL,
+  `FF_id` int(11) DEFAULT NULL,
+  `com_name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `com_price` decimal(17,2) DEFAULT NULL,
+  `com_vip_price` decimal(17,2) DEFAULT NULL,
+  `com_count` int(11) DEFAULT NULL,
+  `com_specification` char(20) COLLATE utf8_bin DEFAULT NULL,
+  `com_describe` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`com_id`),
+  KEY `FK_Relationship_1` (`FF_id`),
+  KEY `FK_Relationship_8` (`LD_id`),
+  CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`FF_id`) REFERENCES `FF` (`FF_id`),
+  CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`LD_id`) REFERENCES `limit_discount` (`LD_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `commodity`
+-- ----------------------------
+BEGIN;
+INSERT INTO `commodity` VALUES ('1', null, '3102', '鸡肉', '30.00', '28.00', '7', '斤', '两件九折优惠！'), ('2', null, '3103', '青椒', '4.00', '3.00', '10', '斤', '两件九折优惠！'), ('3', null, '3103', '花生', '5.00', '4.00', '10', '斤', ''), ('100', null, '3100', '青菜', '3.80', '0.00', '87', '斤', '限时促销商品！'), ('101', null, '3100', '鸡蛋', '12.00', '0.00', '10', '斤', '限时促销商品！');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `coupon`
+-- ----------------------------
+DROP TABLE IF EXISTS `coupon`;
+CREATE TABLE `coupon` (
+  `cou_id` int(11) NOT NULL,
+  `cou_content` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `cou_abl_price` decimal(17,2) DEFAULT NULL,
+  `cou_redu_price` decimal(17,2) DEFAULT NULL,
+  `cou_startdatet` datetime DEFAULT NULL,
+  `cou_enddate` datetime DEFAULT NULL,
+  PRIMARY KEY (`cou_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `coupon`
+-- ----------------------------
+BEGIN;
+INSERT INTO `coupon` VALUES ('1', '订单价格满35减3', '35.00', '3.00', '2020-07-14 00:00:00', '2020-09-12 00:00:00'), ('2', '', '54.00', '10.00', '2020-07-14 00:00:00', '2020-09-14 00:00:00');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `evaluate`
+-- ----------------------------
+DROP TABLE IF EXISTS `evaluate`;
+CREATE TABLE `evaluate` (
+  `eva_content` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `eva_date` datetime DEFAULT NULL,
+  `eva_star` char(1) COLLATE utf8_bin DEFAULT NULL,
+  `eva_image` longblob,
+  `eva_order` int(11) NOT NULL,
+  `ord_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`eva_order`),
+  KEY `FK_Relationship_5` (`ord_id`),
+  CONSTRAINT `FK_Relationship_5` FOREIGN KEY (`ord_id`) REFERENCES `order_message` (`ord_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `limit_discount`
+-- ----------------------------
+DROP TABLE IF EXISTS `limit_discount`;
+CREATE TABLE `limit_discount` (
+  `LD_id` int(11) NOT NULL,
+  `LD_price` decimal(17,2) DEFAULT NULL,
+  `LD_count` int(11) DEFAULT NULL,
+  `LD_startdate` datetime DEFAULT NULL,
+  `LD_enddate` datetime DEFAULT NULL,
+  PRIMARY KEY (`LD_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `limit_discount`
+-- ----------------------------
+BEGIN;
+INSERT INTO `limit_discount` VALUES ('100', '3.80', '10', '2020-07-14 00:00:00', '2020-07-17 00:00:00'), ('101', '12.00', '100', '2020-07-14 00:00:00', '2020-07-17 00:00:00');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
+  `men_id` int(11) NOT NULL,
+  `men_name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `men_materials` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `men_step` varchar(2000) COLLATE utf8_bin DEFAULT NULL,
+  `men_image` longblob,
+  PRIMARY KEY (`men_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `menu`
+-- ----------------------------
+BEGIN;
+INSERT INTO `menu` VALUES ('1', '宫保鸡丁', '青椒、鸡肉、花生', '', null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `order_content`
+-- ----------------------------
+DROP TABLE IF EXISTS `order_content`;
+CREATE TABLE `order_content` (
+  `com_id` int(11) NOT NULL,
+  `ord_id` int(11) NOT NULL,
+  `Oc_count` int(11) DEFAULT NULL,
+  `Oc_price` decimal(17,2) DEFAULT NULL,
+  `Oc_discount` decimal(2,2) DEFAULT NULL,
+  PRIMARY KEY (`com_id`,`ord_id`),
+  KEY `FK_order_content1` (`ord_id`),
+  CONSTRAINT `FK_order_content` FOREIGN KEY (`com_id`) REFERENCES `commodity` (`com_id`),
+  CONSTRAINT `FK_order_content1` FOREIGN KEY (`ord_id`) REFERENCES `order_message` (`ord_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `order_content`
+-- ----------------------------
+BEGIN;
+INSERT INTO `order_content` VALUES ('1', '2', '2', '28.00', '0.90'), ('1', '5', '3', '28.00', '0.90'), ('100', '2', '2', '3.80', '0.00'), ('100', '3', '5', '3.80', '0.00'), ('100', '4', '5', '3.80', '0.00'), ('100', '5', '3', '3.80', '0.00');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `order_message`
+-- ----------------------------
+DROP TABLE IF EXISTS `order_message`;
+CREATE TABLE `order_message` (
+  `ord_id` int(11) NOT NULL,
+  `ord_startprice` decimal(17,2) DEFAULT NULL,
+  `ord_endprice` decimal(17,2) DEFAULT NULL,
+  `ord_time` datetime DEFAULT NULL,
+  `ord_state` char(2) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`ord_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `order_message`
+-- ----------------------------
+BEGIN;
+INSERT INTO `order_message` VALUES ('1', '31.00', '29.00', '2020-07-12 13:48:24', '完成'), ('2', '63.60', '57.24', '2020-07-14 00:00:00', null), ('3', '19.00', '19.00', '2020-07-14 00:00:00', null), ('4', '19.00', '19.00', '2020-07-14 00:00:00', null), ('5', '95.40', '85.86', '2020-07-14 00:00:00', null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `usr_id` int(11) NOT NULL,
+  `usr_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `usr_gender` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `usr_pwd` char(10) COLLATE utf8_bin DEFAULT NULL,
+  `usr_phonenumber` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `usr_email` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `usr_city` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `usr_registration_time` datetime DEFAULT NULL,
+  `usr_isvip` tinyint(1) DEFAULT NULL,
+  `usr_vip_ddl` datetime DEFAULT NULL,
+  PRIMARY KEY (`usr_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `user`
+-- ----------------------------
+BEGIN;
+INSERT INTO `user` VALUES ('1', '22', '女', '22', '123', '123', '123', null, '1', '2021-07-12 00:00:00');
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;

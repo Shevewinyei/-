@@ -96,7 +96,9 @@ public class FrmCouponChose extends JDialog implements ActionListener{
 				try {
 					Beanorder_message ord = oline_fresh_supermaketUtil.ordermessageManager.AddOrder(message);
 					oline_fresh_supermaketUtil.ordercontentManager.add(table,ord.getOrd_id());
-					oline_fresh_supermaketUtil.comManager.update(table);
+					for(int i1=0;i1<table.size();i1++) {
+						oline_fresh_supermaketUtil.comManager.update(table.get(i1));
+					}
 					this.setVisible(false);
 				}catch (BaseException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
@@ -106,15 +108,19 @@ public class FrmCouponChose extends JDialog implements ActionListener{
 		}
 		else if (e.getSource() == btn_no_chose) {
 			Beanorder_message ord;
-			try {
-				ord = oline_fresh_supermaketUtil.ordermessageManager.AddOrder(message);
-				oline_fresh_supermaketUtil.ordercontentManager.add(table,ord.getOrd_id());
-				oline_fresh_supermaketUtil.comManager.update(table);
-			} catch (BaseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if(JOptionPane.showConfirmDialog(this,"确定下单吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					ord = oline_fresh_supermaketUtil.ordermessageManager.AddOrder(message);
+					oline_fresh_supermaketUtil.ordercontentManager.add(table,ord.getOrd_id());
+					for(int i1=0;i1<table.size();i1++) {
+						oline_fresh_supermaketUtil.comManager.update(table.get(i1));
+					}
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				this.setVisible(false);
 			}
-			this.setVisible(false);
 		}
 	}
 	

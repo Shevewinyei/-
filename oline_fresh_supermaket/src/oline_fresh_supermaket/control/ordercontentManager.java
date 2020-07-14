@@ -63,6 +63,7 @@ public class ordercontentManager implements IordercontentManager {
 	@Override
 	public void add(List<Beancommodity> table, int ord_id) throws BaseException {
 		// TODO Auto-generated method stub
+		double discount = 0;
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
@@ -72,17 +73,20 @@ public class ordercontentManager implements IordercontentManager {
 				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 				pst.setInt(1, table.get(i).getCom_id());
 				java.sql.ResultSet rs=pst.executeQuery();
-				rs.next();
-				double discount = rs.getDouble(1);
-				
+				while(rs.next()) {
+					discount = rs.getDouble(1);
+				}
+			
 				sql = "insert into order_content(com_id,ord_id,Oc_count,Oc_price,Oc_discount) values (?,?,?,?,?)";
 				pst=conn.prepareStatement(sql);
 				pst.setInt(1, table.get(i).getCom_id());
 				pst.setInt(2, ord_id);
 				pst.setInt(3, table.get(i).getCom_count());
 				if(oline_fresh_supermaketUtil.userManager.isvip(Beanuser.currentLoginUser.getUsr_name())) {
-					pst.setDouble(4, table.get(i).getCom_vip_price());
-					
+					if(table.get(i).getCom_vip_price() == 0) 
+						pst.setDouble(4, table.get(i).getCom_price());
+					else
+						pst.setDouble(4, table.get(i).getCom_vip_price());
 				}
 				else {
 					pst.setDouble(4, table.get(i).getCom_price());

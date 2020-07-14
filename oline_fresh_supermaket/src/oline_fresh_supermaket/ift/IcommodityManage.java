@@ -17,6 +17,6 @@ public interface IcommodityManage {
 	public List<Beancommodity> loadall( int ffid)throws BaseException;
 	
 	public Beancommodity add(String name,double lDprice, int lDcount)throws BaseException;
-	public void update(List<Beancommodity> table)throws BaseException;
+	public void update(Beancommodity beancommodity)throws BaseException;
 	
 }

@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 	private static String addrString ;
 	private Object tblTitle[]={"商品编号","商品名称","商品价格","商品vip价格","商品数量","商品规格","商品描述"};
 	private Object tblData[][];
-	List<Beancommodity> pubs = null;
+	List<Beancommodity> pubs = new ArrayList<Beancommodity>();
 	DefaultTableModel tablmod=new DefaultTableModel();
 	private JTable dataTable=new JTable(tablmod);
 	private void reloadTable() {
