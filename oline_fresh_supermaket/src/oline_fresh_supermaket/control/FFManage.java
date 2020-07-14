@@ -148,4 +148,60 @@ public class FFManage implements IFFManager {
 		return result;
 	}
 
+	@Override
+	public void Modify(BeanFF p, String s) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update FF set FF_name = ? where FF_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,s);
+			pst.setInt(2,p.getFF_id());
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modify1(BeanFF p, String s) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update FF set FF_describe = ? where FF_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,s);
+			pst.setInt(2,p.getFF_id());
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
 }

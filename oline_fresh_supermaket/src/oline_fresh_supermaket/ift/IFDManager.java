@@ -13,5 +13,8 @@ public interface IFDManager {
 	public void delete(int fd_id)throws BaseException;
 	public void add_FD(String fD_content, int fD_com_count, double fD_discount, int fD_month)throws BaseException;
 	public void addFD_com(int comid, BeanFull_discount dct)throws BaseException;
+	public void Modity(int fd_id, int count)throws BaseException;
+	public void Modity1(int fd_id, double discount)throws BaseException;
+	public void Modity2(int fd_id, String content)throws BaseException;
 	
 }

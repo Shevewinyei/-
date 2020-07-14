@@ -221,7 +221,7 @@ public class commodityManage implements IcommodityManage {
 			String sql = "select max(com_id) from commodity where FF_id = 3100";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
-			if(!rs.next()) {
+			if(rs.next()) {
 				result.setCom_id(100);
 				result.setLd_id(100);
 			}else {
@@ -286,6 +286,90 @@ public class commodityManage implements IcommodityManage {
 			pst.close();
 			
 			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modify(Beancommodity p, int index) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "update commodity set com_count = ? where com_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,index);
+			pst.setInt(2,p.getCom_id());
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modify2(Beancommodity p, double index) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "update commodity set com_price = ? where com_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setDouble(1,index);
+			pst.setInt(2,p.getCom_id());
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modify3(Beancommodity p, double index) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "update commodity set com_vip_price = ? where com_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setDouble(1,index);
+			pst.setInt(2,p.getCom_id());
+			pst.execute();
+			pst.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);

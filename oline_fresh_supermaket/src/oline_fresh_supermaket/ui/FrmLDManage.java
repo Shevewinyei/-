@@ -14,17 +14,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import oline_fresh_supermaket.control.FFManage;
 import oline_fresh_supermaket.control.LDManager;
 import oline_fresh_supermaket.control.commodityManage;
 import oline_fresh_supermaket.model.Beancommodity;
 import oline_fresh_supermaket.model.Beanlimit_discount;
+import oline_fresh_supermaket.start.oline_fresh_supermaketUtil;
 import oline_fresh_supermaket.util.BaseException;
 
 public class FrmLDManage  extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	private Button btnAdd = new Button("添加促销商品");
+	private Button btnModify = new Button("修改促销商品价格");
+	private Button btnModify1 = new Button("修改促销商品数量");
+	private JTextField edtKeyword = new JTextField(10);
 	private Button btnDelete = new Button("删除促销商品");
 	private Button btncancel = new Button("退出");  
 	private Object tblTitle[]= {"商品名称","促销价格","促销数量","促销开始时间","促销结束时间"};
@@ -66,6 +73,10 @@ public class FrmLDManage  extends JDialog implements ActionListener{
 		toolBar.add(this.btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword);
+		toolBar1.add(btnModify);
+		toolBar1.add(btnModify1);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -79,6 +90,8 @@ public class FrmLDManage  extends JDialog implements ActionListener{
 		
 		this.validate();
 		
+		this.btnModify.addActionListener(this);
+		this.btnModify1.addActionListener(this);
 		this.btnAdd.addActionListener(this);
 		this.btnDelete.addActionListener(this);
 		this.btncancel.addActionListener(this);
@@ -93,6 +106,64 @@ public class FrmLDManage  extends JDialog implements ActionListener{
 			FrmAddLD dlg = new FrmAddLD();
 			dlg.setVisible(true);
 			
+		}
+		else if (e.getSource()==this.btnDelete) {
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择限时促销商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanlimit_discount p = this.pubs2.get(i);
+			Beancommodity p1 = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定删除吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.LDManager.delete(p.getLD_id(),p1.getCom_id());
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if (e.getSource() == this.btnModify) {
+			//修改价格
+			double index = Double.parseDouble(edtKeyword.getText());
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择限时促销商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanlimit_discount p = this.pubs2.get(i);
+			Beancommodity p1 = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定删除吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.LDManager.Modity(p.getLD_id(),index);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if (e.getSource() == this.btnModify1) {
+			//修改数量
+			int index = Integer.parseInt(edtKeyword.getText());
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择限时促销商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanlimit_discount p = this.pubs2.get(i);
+			Beancommodity p1 = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定删除吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.LDManager.Modity1(p.getLD_id(),index);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 		}
 	}
 

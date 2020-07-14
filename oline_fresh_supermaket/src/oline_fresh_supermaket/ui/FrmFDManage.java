@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import oline_fresh_supermaket.control.commodityManage;
@@ -24,7 +25,12 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmFDManage extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	private Button btnAdd = new Button("添加满折优惠");
+	private Button btnModity = new Button("修改商品数量");
+	private Button btnModity1 = new Button("修改折扣");
+	private Button btnModity2 = new Button("修改内容");
+	private JTextField edtKeyword = new JTextField(20);
 	private Button btnAddcom = new Button("该满折添加商品");
 	private Button btnDelete = new Button("删除满折");
 	private Button btncancel = new Button("退出"); 
@@ -64,6 +70,11 @@ public class FrmFDManage extends JDialog implements ActionListener{
 		toolBar.add(btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword);
+		toolBar1.add(btnModity);
+		toolBar1.add(btnModity1);
+		toolBar1.add(btnModity2);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		
 		//提取现有数据
 		this.reloadTable();
@@ -82,6 +93,9 @@ public class FrmFDManage extends JDialog implements ActionListener{
 		this.btnAddcom.addActionListener(this);
 		this.btncancel.addActionListener(this);
 		this.btnDelete.addActionListener(this);
+		this.btnModity.addActionListener(this);
+		this.btnModity1.addActionListener(this);
+		this.btnModity2.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -119,6 +133,63 @@ public class FrmFDManage extends JDialog implements ActionListener{
 		else if(e.getSource()==this.btnAdd) {
 			FrmAddFD dlg = new FrmAddFD();
 			dlg.setVisible(true);
+		}
+		else if(e.getSource()==this.btnModity) {
+			//修改数量
+			int count = Integer.parseInt(edtKeyword.getText());
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的优惠","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanFull_discount p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.FDManager.Modity(p.getFD_id(),count);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if (e.getSource()==this.btnModity1) {
+			//修改折扣
+			double discount = Double.parseDouble(edtKeyword.getText());
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改优惠","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanFull_discount p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改吗吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.FDManager.Modity1(p.getFD_id(),discount);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if (e.getSource()==this.btnModity2) {
+			//修改内容
+			String content = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改优惠","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanFull_discount p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改吗吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.FDManager.Modity2(p.getFD_id(),content);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 		}
 				
 	}

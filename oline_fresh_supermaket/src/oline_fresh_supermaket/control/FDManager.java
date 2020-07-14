@@ -57,8 +57,21 @@ public class FDManager implements IFDManager {
 		Connection conn = null;
 		try {
 			conn=JDBCUtil.getConnection();
-			String sql ="delete from FD_com_connect where FD_id = ?";
+			String sql = "select com_id from FD_com_connect where FD_id = ?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, fd_id);
+			java.sql.ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				sql = "update commodity set com_describe = null where com_id = ?";
+				pst=conn.prepareStatement(sql);
+				pst.setInt(1, rs.getInt(1));
+				pst.execute();
+				pst.close();
+			}
+			
+			
+			sql ="delete from FD_com_connect where FD_id = ?";
+			pst=conn.prepareStatement(sql);
 			pst.setInt(1, fd_id);
 			pst.execute();
 			
@@ -68,6 +81,9 @@ public class FDManager implements IFDManager {
 			pst.execute();
 			pst.close();
 			
+			
+			rs.close();
+			pst.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);
@@ -246,6 +262,90 @@ public class FDManager implements IFDManager {
 				}
 		}
 		return result;
+	}
+
+	@Override
+	public void Modity(int fd_id, int count) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update Full_discount set FD_com_count = ? where FD_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,count);
+			pst.setInt(2,fd_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity1(int fd_id, double discount) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update Full_discount set FD_discount = ? where FD_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setDouble(1,discount);
+			pst.setInt(2,fd_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity2(int fd_id, String content) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update Full_discount set FD_content = ? where FD_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,content);
+			pst.setInt(2,fd_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
 	}
 	
 

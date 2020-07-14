@@ -15,5 +15,11 @@ public interface ImenuManager {
 
 	public void Addmenu_com(int com_id, int menu_id)throws BaseException;
 
+	public void Modity(int men_id, String string)throws BaseException;
+
+	public void Modity1(int men_id, String string)throws BaseException;
+
+	public void Modity2(int men_id, String string)throws BaseException;
+
 
 }

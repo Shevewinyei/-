@@ -12,4 +12,7 @@ public interface IFFManager {
 	public BeanFF addFF(int FFid,String FFname,String FFdescrible) throws BaseException;
 	public void deleteFF(int FF_id) throws BaseException;
 	public List<BeanFF> searchFF(int FF_id) throws BaseException;
+	public void Modify(BeanFF p, String s) throws BaseException;
+	public void Modify1(BeanFF p, String s)throws BaseException;
+	
 }

@@ -118,4 +118,88 @@ public class couponManager implements IcouponManager {
 		}
 	}
 
+	@Override
+	public void Modity(int cou_id, String content) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update coupon set cou_content = ? where cou_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,content);
+			pst.setInt(2,cou_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity1(int cou_id, double price) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update coupon set cou_abl_price = ? where cou_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setDouble(1, price);
+			pst.setInt(2,cou_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity2(int cou_id, double price) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update coupon set  cou_redu_price = ? where cou_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setDouble(1, price);
+			pst.setInt(2,cou_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
 }

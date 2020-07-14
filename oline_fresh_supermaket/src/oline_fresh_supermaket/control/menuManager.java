@@ -150,4 +150,88 @@ public class menuManager implements ImenuManager {
 		}
 	}
 
+	@Override
+	public void Modity(int men_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update menu set men_name = ? where men_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,men_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity1(int men_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update menu set men_materials = ? where men_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,men_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity2(int men_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update menu set men_step = ? where men_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,men_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
 }

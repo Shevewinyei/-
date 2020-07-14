@@ -26,12 +26,16 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmCommodityManage extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	private Button btnAdd = new Button("添加商品");
-	//private Button btnModify = new Button("修改出版社");
+	private Button btnModify1 = new Button("修改商品数量");
+	private Button btnModify2 = new Button("修改商品原价");
+	private Button btnModify3 = new Button("修改商品vip价格");
 	private Button btnDelete = new Button("删除商品");
 	private Button btnSearch = new Button("查询商品");   //添加
 	private Button btncancel = new Button("退出");  
 	private JTextField edtKeyword = new JTextField(10);
+	private JTextField edtKeyword1 = new JTextField(10);
 	private Object tblTitle[]={"商品编号","商品名称","商品价格","商品vip价格","商品数量","商品规格","商品描述"};
 	private Object tblData[][];
 	List<Beancommodity> pubs;
@@ -80,12 +84,16 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 	public  FrmCommodityManage() {
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-		//toolBar.add(btnModify);
 		toolBar.add(this.btnDelete);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword1);
+		toolBar1.add(btnModify1);
+		toolBar1.add(btnModify2);
+		toolBar1.add(btnModify3);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -100,7 +108,9 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-	//	this.btnModify.addActionListener(this);
+		this.btnModify1.addActionListener(this);
+		this.btnModify2.addActionListener(this);
+		this.btnModify3.addActionListener(this);
 		this.btnDelete.addActionListener(this);
 		this.btnSearch.addActionListener(this);
 		this.btncancel.addActionListener(this);
@@ -149,6 +159,58 @@ public class FrmCommodityManage extends JDialog implements ActionListener{
 			}catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "错误",JOptionPane.ERROR_MESSAGE);
 				return;
+			}
+		}
+		else if(e.getSource()==btnModify1) {
+			int i=this.dataTable.getSelectedRow();
+			int index = Integer.parseInt(edtKeyword1.getText());
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beancommodity p =  this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改"+p.getCom_name()+"吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.comManager.Modify(p,index);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==btnModify2) {
+			int i=this.dataTable.getSelectedRow();
+			double index = Integer.parseInt(edtKeyword1.getText());
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}Beancommodity p =  this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改"+p.getCom_name()+"吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.comManager.Modify2(p,index);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==btnModify3) {
+			int i=this.dataTable.getSelectedRow();
+			double index = Integer.parseInt(edtKeyword1.getText());
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}Beancommodity p =  this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改"+p.getCom_name()+"吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.comManager.Modify3(p,index);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		}
 		

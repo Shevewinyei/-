@@ -89,6 +89,19 @@ public class FrmMain_admin extends JFrame {
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		
+		JMenu mnNewMenu_5 = new JMenu("\u8FDB\u8D27");
+		menuBar.add(mnNewMenu_5);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u8BA2\u8D2D\u5355");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//¶©¹ºµ¥
+				FrmPurchaseManage dlg = new FrmPurchaseManage();
+				dlg.setVisible(true);
+			}
+		});
+		mnNewMenu_5.add(mntmNewMenuItem_4);
+		
 		JMenu mnNewMenu_4 = new JMenu("\u4F18\u60E0\u7BA1\u7406");
 		menuBar.add(mnNewMenu_4);
 		

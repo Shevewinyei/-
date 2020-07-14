@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import oline_fresh_supermaket.model.BeanMenu;
@@ -21,9 +22,14 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmMenuManage extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	private Button btnAdd = new Button("添加菜谱");
 	private Button btnDelete = new Button("删除菜谱");
 	private Button btnAddcom = new Button("添加商品");
+	private Button btnModity = new Button("修改菜谱名称");
+	private Button btnModity1 = new Button("修改菜谱材料");
+	private Button btnModity2 = new Button("修改菜谱步骤");
+	private JTextField edtKeyword = new JTextField(20);
 	private Button btncancel = new Button("退出"); 
 	//菜谱
 	private Object tblTitle[]={"菜谱编号","菜谱名称","菜谱材料","菜谱步骤"};
@@ -60,6 +66,11 @@ public class FrmMenuManage extends JDialog implements ActionListener{
 		toolBar.add(btnAddcom);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword);
+		toolBar1.add(btnModity);
+		toolBar1.add(btnModity1);
+		toolBar1.add(btnModity2);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		
 		//提取现有数据
 		this.reloadTable();
@@ -78,6 +89,9 @@ public class FrmMenuManage extends JDialog implements ActionListener{
 		this.btncancel.addActionListener(this);
 		this.btnDelete.addActionListener(this);
 		this.btnAddcom.addActionListener(this);
+		this.btnModity.addActionListener(this);
+		this.btnModity1.addActionListener(this);
+		this.btnModity2.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -117,6 +131,64 @@ public class FrmMenuManage extends JDialog implements ActionListener{
 				
 			}
 		}
+		else if(e.getSource()==this.btnModity) {
+			//修改菜谱名称
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的菜谱","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanMenu pBeanMenu = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该菜谱吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.menuManager.Modity(pBeanMenu.getMen_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity1) {
+			//修改菜谱材料
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的菜谱","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanMenu pBeanMenu = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该菜谱吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.menuManager.Modity1(pBeanMenu.getMen_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity2) {	
+			//修改菜谱步骤
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的菜谱","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanMenu pBeanMenu = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该菜谱吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.menuManager.Modity2(pBeanMenu.getMen_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		
 	}
 
 }

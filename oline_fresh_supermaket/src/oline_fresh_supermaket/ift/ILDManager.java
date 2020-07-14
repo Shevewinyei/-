@@ -10,4 +10,7 @@ public interface ILDManager {
 	public List<Beanlimit_discount> loadall(List<Beancommodity> pubs)throws BaseException;
 	public List<Beanlimit_discount> loadall()throws BaseException;
 	public void add(Beancommodity p)throws BaseException;
+	public void delete(int ld_id, int com_id)throws BaseException;
+	public void Modity(int ld_id, double index)throws BaseException;
+	public void Modity1(int ld_id, int index)throws BaseException;
 }

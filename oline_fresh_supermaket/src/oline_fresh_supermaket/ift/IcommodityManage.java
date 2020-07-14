@@ -18,5 +18,8 @@ public interface IcommodityManage {
 	
 	public Beancommodity add(String name,double lDprice, int lDcount)throws BaseException;
 	public void update(Beancommodity beancommodity)throws BaseException;
+	public void Modify(Beancommodity p, int index)throws BaseException;
+	public void Modify2(Beancommodity p, double index)throws BaseException;
+	public void Modify3(Beancommodity p, double index)throws BaseException;
 	
 }

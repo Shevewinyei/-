@@ -13,4 +13,10 @@ public interface IcouponManager {
 
 	public void add(Beancoupon p)throws BaseException;
 
+	public void Modity(int cou_id, String content)throws BaseException;
+
+	public void Modity1(int cou_id, double price)throws BaseException;
+
+	public void Modity2(int cou_id, double price)throws BaseException;
+
 }

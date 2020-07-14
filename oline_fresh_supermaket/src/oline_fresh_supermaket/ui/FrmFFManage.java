@@ -25,9 +25,12 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmFFManage extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	//添加
 	private Button btnAdd = new Button("添加生鲜类别");
-//	private Button btnModify = new Button("修改出版社");
+	private Button btnModify = new Button("修改类别名称");
+	private Button btnModify1 = new Button("修改类别描述");
+	private JTextField edtKeyword1 = new JTextField(10);
 	private Button btnDelete = new Button("删除生鲜类别");
 	private Button btnSearch = new Button("查询生鲜类别");  
 	private Button cancelButton =  new Button("退出");
@@ -75,13 +78,16 @@ public class FrmFFManage extends JDialog implements ActionListener{
 	public  FrmFFManage() {
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-		//toolBar.add(btnModify);
 		toolBar.add(this.btnDelete);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
 		toolBar.add(this.cancelButton);
 		toolBar.add(this.refreshButton);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword1);
+		toolBar1.add(btnModify);
+		toolBar1.add(btnModify1);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -96,16 +102,12 @@ public class FrmFFManage extends JDialog implements ActionListener{
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-		//this.btnModify.addActionListener(this);
+		this.btnModify.addActionListener(this);
+		this.btnModify1.addActionListener(this);
 		this.btnDelete.addActionListener(this);
 		this.cancelButton.addActionListener(this);
 		this.btnSearch.addActionListener(this);
 		this.refreshButton.addActionListener(this);
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				//System.exit(0);
-			}
-		});
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -154,6 +156,50 @@ public class FrmFFManage extends JDialog implements ActionListener{
 		}
 		else if (e.getSource()==this.refreshButton) {
 			this.reloadTable();
+		}
+		else if(e.getSource()==this.btnModify) {
+			String s = edtKeyword1.getText();
+			if(s.isEmpty()) {
+				JOptionPane.showMessageDialog(null,  "未输入参数","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择生鲜类别","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanFF p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.FFManager.Modify(p,s);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModify1){
+			String s = edtKeyword1.getText();
+			if(s.isEmpty()) {
+				JOptionPane.showMessageDialog(null,  "未输入参数","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择生鲜类别","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			BeanFF p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.FFManager.Modify1(p,s);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 		}
 	}
 }
