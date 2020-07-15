@@ -386,4 +386,39 @@ public class commodityManage implements IcommodityManage {
 		}
 	}
 
+	@Override
+	public List<Beancommodity> selectName(List<Beancommodity> coms) throws BaseException {
+		// TODO Auto-generated method stub
+		List<Beancommodity> result = new ArrayList<Beancommodity>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			for(int i=0;i<coms.size();i++) {
+				String sql = "select com_name from commodity where com_id = ?";
+				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+				pst.setInt(1, coms.get(i).getCom_id());
+				java.sql.ResultSet rs=pst.executeQuery();
+				if(rs.next()) {
+					Beancommodity p = new Beancommodity();
+					p.setCom_name(rs.getString(1));
+					result.add(p);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
 }

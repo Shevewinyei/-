@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import oline_fresh_supermaket.control.commodityManage;
@@ -35,10 +36,12 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 	private JLabel finalprice;	    //合计价格（优惠后价格）
 	private JLabel discountprice;   //优惠价格
 	private Button btnSetAddress = new Button("修改当前地址");
+	private Button btnSetCount = new Button("修改数量");
+	private JTextField edtKeyword = new JTextField(10);
 	private Button btnok = new Button("确认订单");
 	private Button btnDelete = new Button("删除商品");
 	private Button btncancel = new Button("退出");
-	private static List<Beancommodity> coms ;
+	static List<Beancommodity> coms ;
 	private double price;
 	private double discount;
 	private static String addrString ;
@@ -108,6 +111,8 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		Addrcurrent = new JLabel("地址："+addrString);
 		toolBar.add(Addrcurrent);
 		toolBar.add(btnSetAddress);
+		toolBar.add(edtKeyword);
+		toolBar.add(btnSetCount);
 		toolBar.add(this.btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -136,21 +141,56 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		this.btncancel.addActionListener(this);
 		this.btnSetAddress.addActionListener(this);
 		this.btnok.addActionListener(this);
+		this.btnSetCount.addActionListener(this);
 	}
 	public Frm_BuyCar(Beanaddress p) {
+		if(Beanuser.currentLoginUser.isUsr_isvip()) {
+			for (int i = 0; i < coms.size(); i++) {
+				if(coms.get(i).getCom_vip_price() == 0) 
+					price = price + coms.get(i).getCom_price()*coms.get(i).getCom_count();
+				else 
+					price = price + coms.get(i).getCom_vip_price()*coms.get(i).getCom_count();
+			}
+		}
+		else {
+			for (int i = 0; i < coms.size(); i++) {
+				price = price + coms.get(i).getCom_price()*coms.get(i).getCom_count();
+			}
+		}
+		for (int i = 0; i < coms.size(); i++) {
+			boolean p1 = false;
+			try {
+				p1 = oline_fresh_supermaketUtil.FDManager.isFDcom(coms.get(i).getCom_id(),coms.get(i).getCom_count());
+			} catch (BaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(p1) {
+				double t = 0;
+				try {
+					t = oline_fresh_supermaketUtil.FDManager.discount_price(coms.get(i).getCom_id());
+				} catch (BaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				discount = price*(1-t);
+			}
+		}
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		addrString = p.getAddr_pro()+p.getAddr_city()+p.getAddr_area()+p.getAddr_current();
 		Addrcurrent = new JLabel("地址：" + addrString);
 		toolBar.add(Addrcurrent);
 		toolBar.add(btnSetAddress);
+		toolBar.add(edtKeyword);
+		toolBar.add(btnSetCount);
 		toolBar.add(this.btnDelete);
 		toolBar.add(this.btncancel);
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		endJPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		finalprice = new JLabel("合计：");
+		finalprice = new JLabel("合计："+new java.text.DecimalFormat("#.00").format(price-discount));
 		endJPanel.add(finalprice);
-		discountprice = new JLabel("优惠：");
+		discountprice = new JLabel("优惠："+new java.text.DecimalFormat("#.00").format(discount));
 		endJPanel.add(discountprice);
 		endJPanel.add(btnok);
 		this.getContentPane().add(endJPanel,BorderLayout.SOUTH);
@@ -171,6 +211,7 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 		this.btncancel.addActionListener(this);
 		this.btnSetAddress.addActionListener(this);
 		this.btnok.addActionListener(this);
+		this.btnSetCount.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -214,6 +255,16 @@ public class Frm_BuyCar extends JFrame implements ActionListener {
 			dlg.setVisible(true);
 			this.setVisible(false);
 		//	Beanorder_content = oline_fresh_supermaketUtil.ordercontentManager.add(coms);
+		}
+		else if(e.getSource()==this.btnSetCount){
+			int count = Integer.parseInt(edtKeyword.getText());
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的商品","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			this.pubs.get(i).setCom_count(count);
+			this.reloadTable();
 		}
 	}
 

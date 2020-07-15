@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import oline_fresh_supermaket.ift.IordercontentManager;
+import oline_fresh_supermaket.model.BeanSearch;
 import oline_fresh_supermaket.model.Beancommodity;
 import oline_fresh_supermaket.model.Beanorder_content;
 import oline_fresh_supermaket.model.Beanorder_message;
@@ -109,6 +110,143 @@ public class ordercontentManager implements IordercontentManager {
 				
 				}
 		}
+	}
+
+	public List<Beanorder_content> load() throws BaseException{
+		// TODO Auto-generated method stub
+		List<Beanorder_content> result = new ArrayList<Beanorder_content>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select * from order_content ";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				Beanorder_content p = new Beanorder_content();
+				p.setCom_id(rs.getInt(1));
+				p.setOrd_id(rs.getInt(2));
+				p.setOc_count(rs.getInt(3));
+				p.setOc_price(rs.getDouble(4));
+				p.setOc_discount(rs.getDouble(5));
+				result.add(p);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public List<Beancommodity> selectComs() throws BaseException {
+		// TODO Auto-generated method stub
+		List<Beancommodity> result = new ArrayList<Beancommodity>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select distinct com_id from order_content ";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				Beancommodity p = new Beancommodity();
+				p.setCom_id(rs.getInt(1));
+				result.add(p);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public List<BeanSearch> selectSum(List<Beancommodity> coms) throws BaseException {
+		// TODO Auto-generated method stub
+		List<BeanSearch> result = new ArrayList<BeanSearch>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			for(int i=0;i<coms.size();i++) {
+				String sql = "select count(ord_id) from order_content where com_id = ?";
+				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+				pst.setInt(1, coms.get(i).getCom_id());
+				java.sql.ResultSet rs=pst.executeQuery();
+				if(rs.next()) {
+					BeanSearch p = new BeanSearch();
+					p.setSum(rs.getInt(1));
+					result.add(p);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
+	}
+
+	@Override
+	public List<BeanSearch> selectCount(List<Beancommodity> coms) throws BaseException {
+		// TODO Auto-generated method stub
+		List<BeanSearch> result = new ArrayList<BeanSearch>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			for(int i=0;i<coms.size();i++) {
+				String sql = "select sum(Oc_count) from order_content where com_id = ?";
+				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+				pst.setInt(1, coms.get(i).getCom_id());
+				java.sql.ResultSet rs=pst.executeQuery();
+				if(rs.next()) {
+					BeanSearch p = new BeanSearch();
+					p.setCount(rs.getInt(1));
+					result.add(p);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
 	}
 
 }

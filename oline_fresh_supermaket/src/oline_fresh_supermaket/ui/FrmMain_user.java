@@ -144,14 +144,25 @@ public class FrmMain_user extends JFrame {
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u67E5\u770B\u5386\u53F2\u8BA2\u5355");
+		JMenuItem searchItem = new JMenuItem("推荐商品");
+		
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//查看历史订单
-				FrmOrder dlg = new FrmOrder();
+				FrmOrder_user dlg = new FrmOrder_user();
 				dlg.setVisible(true);
 			}
 		});
+		searchItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//统计查询
+				FrmSearchView dlg = new FrmSearchView();
+				dlg.setVisible(true);
+			}
+		});
+		
 		mnNewMenu_1.add(mntmNewMenuItem_1);
+		mnNewMenu_1.add(searchItem);
 		
 		JMenu mnNewMenu_3 = new JMenu("\u4E2A\u4EBA\u4FE1\u606F\u7BA1\u7406");
 		menuBar.add(mnNewMenu_3);

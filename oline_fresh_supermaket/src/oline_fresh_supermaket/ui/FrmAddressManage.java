@@ -26,11 +26,15 @@ import oline_fresh_supermaket.util.BaseException;
 
 public class FrmAddressManage extends JDialog implements ActionListener{
 	private JPanel toolBar = new JPanel();
+	private JPanel toolBar1 = new JPanel();
 	private Button btnAdd = new Button("添加地址");
 	private Button btnDelete = new Button("删除地址");   //添加
-	//private Button btnSet = new Button("设置为当前送货地址");
 	private Button btncancel = new Button("退出");  
-	//private JTextField edtKeyword = new JTextField(10);
+	private Button btnModity = new Button("修改省");
+	private Button btnModity1 = new Button("修改市");
+	private Button btnModity2 = new Button("修改区");
+	private Button btnModity3 = new Button("修改具体地址");
+	private JTextField edtKeyword = new JTextField(20);
 	private Object tblTitle[]={"地址编号","省","市","区","具体地址"};
 	private Object tblData[][];
 	List<Beanaddress> pubs;
@@ -64,10 +68,14 @@ public class FrmAddressManage extends JDialog implements ActionListener{
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
 		toolBar.add(this.btnDelete);
-		//toolBar.add(btnSet);
 		toolBar.add(this.btncancel);
-		
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar1.add(edtKeyword);
+		toolBar1.add(btnModity);
+		toolBar1.add(btnModity1);
+		toolBar1.add(btnModity2);
+		toolBar1.add(btnModity3);
+		this.getContentPane().add(toolBar1, BorderLayout.SOUTH);
 		//提取现有数据
 		this.reloadTable();
 		this.getContentPane().add(new JScrollPane(this.dataTable), BorderLayout.CENTER);
@@ -82,9 +90,11 @@ public class FrmAddressManage extends JDialog implements ActionListener{
 		
 		this.btnAdd.addActionListener(this);
 		this.btnDelete.addActionListener(this);
-		//this.btnSet.addActionListener(this);
 		this.btncancel.addActionListener(this);
-		
+		this.btnModity.addActionListener(this);
+		this.btnModity1.addActionListener(this);
+		this.btnModity2.addActionListener(this);
+		this.btnModity3.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -105,6 +115,82 @@ public class FrmAddressManage extends JDialog implements ActionListener{
 			if(JOptionPane.showConfirmDialog(this,"确定删除吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
 				try {
 					oline_fresh_supermaketUtil.addrManager.deleteAddress(p.getAddr_id());
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity) {
+			//修改省
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的地址","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanaddress p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该地址吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.addrManager.Modity(p.getAddr_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity1) {
+			//修改市
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的地址","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanaddress p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该地址吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.addrManager.Modity1(p.getAddr_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity2) {
+			//修改区
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的地址","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanaddress p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该地址吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.addrManager.Modity2(p.getAddr_id(),string);
+					this.reloadTable();
+				} catch (BaseException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
+		else if(e.getSource()==this.btnModity3) {
+			//修改具体地址
+			String string = edtKeyword.getText();
+			int i=this.dataTable.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null,  "请选择要修改的地址","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			Beanaddress p = this.pubs.get(i);
+			if(JOptionPane.showConfirmDialog(this,"确定修改该地址吗？","确认",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+				try {
+					oline_fresh_supermaketUtil.addrManager.Modity3(p.getAddr_id(),string);
 					this.reloadTable();
 				} catch (BaseException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);

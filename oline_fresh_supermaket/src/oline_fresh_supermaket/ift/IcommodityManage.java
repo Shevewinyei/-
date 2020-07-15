@@ -21,5 +21,6 @@ public interface IcommodityManage {
 	public void Modify(Beancommodity p, int index)throws BaseException;
 	public void Modify2(Beancommodity p, double index)throws BaseException;
 	public void Modify3(Beancommodity p, double index)throws BaseException;
+	public List<Beancommodity> selectName(List<Beancommodity> coms)throws BaseException;
 	
 }

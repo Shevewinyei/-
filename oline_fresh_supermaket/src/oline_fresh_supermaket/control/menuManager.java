@@ -7,6 +7,7 @@ import java.util.List;
 
 import oline_fresh_supermaket.ift.ImenuManager;
 import oline_fresh_supermaket.model.BeanMenu;
+import oline_fresh_supermaket.model.Beancommodity;
 import oline_fresh_supermaket.util.BaseException;
 import oline_fresh_supermaket.util.DbException;
 import oline_fresh_supermaket.util.JDBCUtil;
@@ -232,6 +233,64 @@ public class menuManager implements ImenuManager {
 				
 				}
 		}
+	}
+
+	@Override
+	public List<Beancommodity> addBuyCar(BeanMenu pBeanMenu) throws BaseException {
+		// TODO Auto-generated method stub
+		List<Beancommodity> result = new ArrayList<Beancommodity>();
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "select com_id from com_menu where men_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1, pBeanMenu.getMen_id());
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next())  throw new BaseException("菜单下无商品不能添加。");
+			
+			
+			sql = "select com_id from com_menu where men_id = ?";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1, pBeanMenu.getMen_id());
+			rs=pst.executeQuery();
+			while (rs.next()) {
+				Beancommodity p = new Beancommodity();
+				p.setCom_id(rs.getInt(1));
+				result.add(p);
+			}
+			
+			for (int i = 0; i < result.size(); i++) {
+				sql = "select * from commodity where com_id = ?";
+				pst=conn.prepareStatement(sql);
+				pst.setInt(1, result.get(i).getCom_id());
+				rs=pst.executeQuery();
+				if(rs.next()) {
+					result.get(i).setFF_id(rs.getInt(3));
+					result.get(i).setCom_name(rs.getString(4));
+					result.get(i).setCom_price(rs.getDouble(5));
+					result.get(i).setCom_vip_price(rs.getDouble(6));
+					result.get(i).setCom_count(1);
+					result.get(i).setCom_specification(rs.getString(8));
+					result.get(i).setCom_describle(rs.getString(9));
+				}
+			}
+			rs.close();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+		return result;
 	}
 
 }

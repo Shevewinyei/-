@@ -10,4 +10,12 @@ public interface IaddressManager {
 
 	public void Add(String addpro, String addcity, String addarea, String addcurrent)throws BaseException;
 	public void deleteAddress(int addr_id)throws BaseException;
+
+	public void Modity(int addr_id, String string)throws BaseException;
+
+	public void Modity1(int addr_id, String string)throws BaseException;
+
+	public void Modity2(int addr_id, String string)throws BaseException;
+
+	public void Modity3(int addr_id, String string)throws BaseException;
 }

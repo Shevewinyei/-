@@ -135,6 +135,19 @@ public class FrmMain_admin extends JFrame {
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_3);
 		
+		JMenu mnNewMenu_6 = new JMenu("\u7528\u6237\u8BA2\u5355");
+		menuBar.add(mnNewMenu_6);
+		
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("\u8BA2\u5355\u8BE6\u60C5");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//用户订单
+				FrmOrder_admin dlgAdmin = new FrmOrder_admin();
+				dlgAdmin.setVisible(true);
+			}
+		});
+		mnNewMenu_6.add(mntmNewMenuItem_6);
+		
 		JMenu mnNewMenu_2 = new JMenu("\u63A8\u8350\u83DC\u8C31");
 		menuBar.add(mnNewMenu_2);
 		
@@ -159,6 +172,16 @@ public class FrmMain_admin extends JFrame {
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_9);
+		
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u7EDF\u8BA1\u67E5\u8BE2");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//统计查询
+				FrmSearchView dlg = new FrmSearchView();
+				dlg.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_7);
 		JPanel = new JPanel();
 		JPanel.setBackground(new Color(255, 255, 255));
 		JPanel.setForeground(new Color(0, 0, 0));

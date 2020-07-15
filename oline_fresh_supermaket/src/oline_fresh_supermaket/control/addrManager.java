@@ -129,6 +129,118 @@ public class addrManager implements IaddressManager {
 		}
 	}
 
+	@Override
+	public void Modity(int addr_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update address set addr_pro = ? where addr_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,addr_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity1(int addr_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update address set addr_city = ? where addr_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,addr_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity2(int addr_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update address set addr_area = ? where addr_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,addr_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
+	@Override
+	public void Modity3(int addr_id, String string) throws BaseException {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn=JDBCUtil.getConnection();
+			String sql = "update address set addr_current = ? where addr_id = ?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, string);
+			pst.setInt(2,addr_id);
+			pst.execute();
+			pst.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				
+				}
+		}
+	}
+
 	
 
 }

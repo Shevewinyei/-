@@ -5,7 +5,7 @@ import java.util.Date;
 public class Beanevaluate {
 	String eva_content;
 	Date eva_date;
-	char eva_star;
+	String eva_star;
 	byte[] eva_image;
 	int eva_order;
 	int ord_id;
@@ -21,11 +21,11 @@ public class Beanevaluate {
 	public void setEva_date(Date eva_date) {
 		this.eva_date = eva_date;
 	}
-	public char getEva_star() {
+	public String getEva_star() {
 		return eva_star;
 	}
-	public void setEva_star(char eva_star) {
-		this.eva_star = eva_star;
+	public void setEva_star(String star) {
+		this.eva_star = star;
 	}
 	public byte[] getEva_image() {
 		return eva_image;
